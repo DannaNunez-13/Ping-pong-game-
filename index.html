@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ping Pong 3D - Cargando</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="loading-container">
+        <div class="game-title">PING PONG 3D</div>
+        
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+                <div class="paddle" id="paddle">🏓</div>
+                <div class="ball" id="ball">⚪</div>
+            </div>
+            <div class="progress-text" id="progressText">0%</div>
+        </div>
+        
+        <div class="loading-text" id="loadingText">Cargando...</div>
+        
+        <div class="menu-container" id="menuContainer" style="display: none;">
+            <h1>PING PONG 3D</h1>
+            <div class="menu-buttons">
+                <button class="menu-btn" onclick="startGame()">JUGAR</button>
+                <button class="menu-btn" onclick="showOptions()">OPCIONES</button>
+                <button class="menu-btn" onclick="showCredits()">CRÉDITOS</button>
+            </div>
+        </div>
+        
+        <div class="fade-overlay" id="fadeOverlay"></div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
