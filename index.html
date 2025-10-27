@@ -256,17 +256,17 @@
                     <button class="difficulty-btn easy" onclick="playGame('easy')">
                         <span class="diff-icon">😊</span>
                         <span class="diff-name">FÁCIL</span>
-                        <span class="diff-reward">+25 EXP, +10 🪙</span>
+                        <span class="diff-reward">+25 EXP, +30 🪙</span>
                     </button>
                     <button class="difficulty-btn medium" onclick="playGame('medium')">
                         <span class="diff-icon">😐</span>
                         <span class="diff-name">MEDIO</span>
-                        <span class="diff-reward">+40 EXP, +20 🪙</span>
+                        <span class="diff-reward">+40 EXP, +60 🪙</span>
                     </button>
                     <button class="difficulty-btn hard" onclick="playGame('hard')">
                         <span class="diff-icon">😤</span>
                         <span class="diff-name">DIFÍCIL</span>
-                        <span class="diff-reward">+60 EXP, +35 🪙</span>
+                        <span class="diff-reward">+60 EXP, +100 🪙</button>span>
                     </button>
                 </div>
                 <button class="close-modes-btn" onclick="hideGameModes()">Cerrar</button>
@@ -343,7 +343,7 @@
         <!-- Controles del juego -->
         <div class="game-controls">
             <div class="control-instructions">
-                <span>Mueve tu paleta: ⬅️ ➡️ ⬆️ ⬇️ o arrastra con el mouse</span>
+                <span>Controles: ⬅️ ➡️ ⬆️ ⬇️ para mover | ESPACIO para sacar | Mouse para posicionar</span>
             </div>
         </div>
 
@@ -372,7 +372,36 @@
     </div>
 
     <!-- INTERFAZ DE TIENDA AZUL -->
-    <div class="blue-shop-interface" id="blueShopInterface" style="display: none;"></div>
+    <div class="blue-shop-interface" id="blueShopInterface" style="display: none;">
+        <div class="shop-header">
+            <button class="back-btn" onclick="closeBlueShop()">← Volver</button>
+            <h1>🛒 TIENDA DE PING PONG</h1>
+            <div class="shop-coins">
+                <span class="coin-icon">🪙</span>
+                <span id="shopCoinsDisplay">50</span>
+            </div>
+        </div>
+
+        <div class="shop-categories">
+            <button class="category-btn active" onclick="showCategory('pelotas')">
+                <span class="category-icon">⚪</span>
+                Pelotas
+            </button>
+            <button class="category-btn" onclick="showCategory('paletas')">
+                <span class="category-icon">🏓</span>
+                Paletas
+            </button>
+            <button class="category-btn" onclick="showCategory('mesas')">
+                <span class="category-icon">🏓</span>
+                Mesas
+            </button>
+        </div>
+
+        <div class="shop-items-grid" id="shopItemsGrid">
+            <!-- Items se generan dinámicamente -->
+        </div>
+    </div>
+    </div>
     <div class="shop-header">
         <button class="back-btn" onclick="closeBlueShop()">← Volver</button>
         <h1>🛒 TIENDA DE PING PONG</h1>
