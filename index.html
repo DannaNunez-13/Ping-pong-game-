@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ping Pong 3D - Cargando</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <div class="loading-container">
         <div class="game-title">PING PONG 3D</div>
-        
+
         <div class="progress-container">
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
@@ -18,21 +20,389 @@
             </div>
             <div class="progress-text" id="progressText">0%</div>
         </div>
-        
+
         <div class="loading-text" id="loadingText">Cargando...</div>
-        
-        <div class="menu-container" id="menuContainer" style="display: none;">
-            <h1>PING PONG 3D</h1>
-            <div class="menu-buttons">
-                <button class="menu-btn" onclick="startGame()">JUGAR</button>
-                <button class="menu-btn" onclick="showOptions()">OPCIONES</button>
-                <button class="menu-btn" onclick="showCredits()">CRÉDITOS</button>
+
+
+
+        <!-- MENÚ PRINCIPAL COMPLETO -->
+        <div class="main-menu" id="mainMenu" style="display: none;">
+            <!-- Header con info del jugador -->
+            <div class="player-info">
+                <div class="player-details">
+                    <div class="player-name" id="playerName">Jugador</div>
+                    <div class="player-level">Nivel <span id="playerLevel">1</span></div>
+                    <div class="experience-bar">
+                        <div class="exp-fill" id="expFill" style="width: 45%"></div>
+                    </div>
+                </div>
+                <div class="currency-info">
+                    <div class="coins">
+                        <span class="coin-icon">🪙</span>
+                        <span id="coinCount">150</span>
+                    </div>
+                    <div class="stars">
+                        <span class="star-icon">⭐</span>
+                        <span id="starCount">5</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mesa 3D Central -->
+            <div class="table-showcase">
+                <div class="ping-pong-table" id="pingPongTable">
+                    <div class="table-surface"></div>
+                    <div class="table-net"></div>
+                    <div class="table-legs"></div>
+                </div>
+            </div>
+
+            <!-- Botones Principales -->
+            <div class="main-buttons">
+                <button class="main-btn play-btn" onclick="showGameModes()">
+                    <span class="btn-icon">🎮</span>
+                    JUGAR
+                </button>
+                <button class="main-btn shop-btn" onclick="showShop()">
+                    <span class="btn-icon">🛒</span>
+                    TIENDA
+                </button>
+                <button class="main-btn customize-btn" onclick="showCustomize()">
+                    <span class="btn-icon">🎨</span>
+                    PERSONALIZAR
+                </button>
+                <button class="main-btn options-btn" onclick="showOptions()">
+                    <span class="btn-icon">⚙️</span>
+                    OPCIONES
+                </button>
+                <button class="main-btn exit-btn" onclick="exitGame()">
+                    <span class="btn-icon">🚪</span>
+                    SALIR
+                </button>
+            </div>
+
+            <!-- Barra Lateral Derecha -->
+            <div class="side-panel">
+                <button class="side-btn" onclick="showProfile()">
+                    <span class="side-icon">👤</span>
+                    Perfil
+                </button>
+                <button class="side-btn" onclick="showAchievements()">
+                    <span class="side-icon">🏆</span>
+                    Logros
+                </button>
+                <button class="side-btn" onclick="showRanking()">
+                    <span class="side-icon">📊</span>
+                    Ranking
+                </button>
+            </div>
+
+            <!-- Navegación Inferior -->
+            <div class="bottom-nav">
+                <button class="nav-btn active" onclick="showHome()">
+                    <span class="nav-icon">🏠</span>
+                    Inicio
+                </button>
+                <button class="nav-btn" onclick="showShop()">
+                    <span class="nav-icon">🛒</span>
+                    Tienda
+                </button>
+                <button class="nav-btn" onclick="showInventory()">
+                    <span class="nav-icon">🎒</span>
+                    Inventario
+                </button>
+                <button class="nav-btn" onclick="showSettings()">
+                    <span class="nav-icon">⚙️</span>
+                    Config
+                </button>
             </div>
         </div>
-        
+
+        <!-- PANEL DE MODOS DE JUEGO -->
+        <div class="game-modes-panel" id="gameModesPanel" style="display: none;">
+            <div class="panel-header">
+                <button class="back-btn" onclick="showMainMenu()">← Volver</button>
+                <h2>Seleccionar Modo de Juego</h2>
+            </div>
+
+            <div class="modes-grid">
+                <div class="mode-card" onclick="selectGameMode('1vs1')">
+                    <div class="mode-icon">🏓</div>
+                    <h3>1 vs 1</h3>
+                    <p>Partida clásica contra la IA</p>
+                    <div class="reward">+10-30 monedas</div>
+                </div>
+                <div class="mode-card" onclick="selectGameMode('multiball')">
+                    <div class="mode-icon">⚪⚪</div>
+                    <h3>Multi Pelota</h3>
+                    <p>Múltiples pelotas en juego</p>
+                    <div class="reward">+15-45 monedas</div>
+                </div>
+                <div class="mode-card" onclick="selectGameMode('timeattack')">
+                    <div class="mode-icon">⏱️</div>
+                    <h3>Contrarreloj</h3>
+                    <p>Máxima puntuación en tiempo límite</p>
+                    <div class="reward">+12-36 monedas</div>
+                </div>
+                <div class="mode-card" onclick="selectGameMode('tournament')">
+                    <div class="mode-icon">🏆</div>
+                    <h3>Torneo</h3>
+                    <p>Compite en el campeonato</p>
+                    <div class="reward">+50 monedas + ⭐</div>
+                </div>
+            </div>
+
+            <div class="difficulty-selector">
+                <h3>Dificultad</h3>
+                <div class="difficulty-buttons">
+                    <button class="diff-btn active" data-difficulty="easy">Fácil</button>
+                    <button class="diff-btn" data-difficulty="medium">Medio</button>
+                    <button class="diff-btn" data-difficulty="hard">Difícil</button>
+                </div>
+            </div>
+
+            <button class="start-game-btn" onclick="startSelectedGame()">COMENZAR PARTIDA</button>
+        </div>
+
+        <!-- PANEL DE TIENDA -->
+        <div class="shop-panel" id="shopPanel" style="display: none;">
+            <div class="panel-header">
+                <button class="back-btn" onclick="showMainMenu()">← Volver</button>
+                <h2>Tienda</h2>
+                <div class="currency-display">
+                    <span class="coin-icon">🪙</span>
+                    <span id="shopCoins">150</span>
+                </div>
+            </div>
+
+            <div class="shop-tabs">
+                <button class="shop-tab active" onclick="showShopCategory('balls')">Pelotas</button>
+                <button class="shop-tab" onclick="showShopCategory('tables')">Mesas</button>
+                <button class="shop-tab" onclick="showShopCategory('environments')">Escenarios</button>
+            </div>
+
+            <div class="shop-items" id="shopItems">
+                <!-- Items se generan dinámicamente -->
+            </div>
+        </div>
+
         <div class="fade-overlay" id="fadeOverlay"></div>
     </div>
-    
+
+    <!-- INTERFAZ PRINCIPAL -->
+    <div class="main-interface" id="mainInterface" style="display: none;">
+        <!-- Fondo dinámico -->
+        <div class="dynamic-background">
+            <div class="bg-particle"></div>
+            <div class="bg-particle"></div>
+            <div class="bg-particle"></div>
+        </div>
+
+        <!-- Header con info del jugador -->
+        <div class="interface-header">
+            <div class="player-info">
+                <div class="player-avatar">👤</div>
+                <div class="player-details">
+                    <h2 id="playerNameDisplay">Jugador</h2>
+                    <div class="level-info">Nivel <span id="playerLevelDisplay">1</span></div>
+                    <div class="exp-bar">
+                        <div class="exp-fill" id="expBarFill" style="width: 0%"></div>
+                        <span class="exp-text" id="expText">0/100 EXP</span>
+                    </div>
+                </div>
+            </div>
+            <div class="currency-display">
+                <div class="coins-display">
+                    <span class="coin-icon">🪙</span>
+                    <span id="coinsDisplay">50</span>
+                </div>
+                <div class="stars-display">
+                    <span class="star-icon">⭐</span>
+                    <span id="starsDisplay">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mesa central animada -->
+        <div class="center-table">
+            <div class="ping-pong-table-3d">
+                <div class="table-top"></div>
+                <div class="table-net"></div>
+                <div class="table-shadow"></div>
+            </div>
+        </div>
+
+        <!-- Botones principales -->
+        <div class="main-action-buttons">
+            <button class="action-btn play-btn" onclick="showGameModes()">
+                <span class="btn-icon">🎮</span>
+                <span class="btn-text">JUGAR</span>
+            </button>
+            <button class="action-btn customize-btn" onclick="showCustomization()">
+                <span class="btn-icon">🎨</span>
+                <span class="btn-text">PERSONALIZAR</span>
+            </button>
+            <button class="action-btn options-btn" onclick="showOptions()">
+                <span class="btn-icon">⚙️</span>
+                <span class="btn-text">OPCIONES</span>
+            </button>
+        </div>
+
+        <!-- Panel de modos de juego -->
+        <div class="game-modes-overlay" id="gameModesOverlay" style="display: none;">
+            <div class="modes-panel">
+                <h2>Seleccionar Dificultad</h2>
+                <div class="difficulty-options">
+                    <button class="difficulty-btn easy" onclick="playGame('easy')">
+                        <span class="diff-icon">😊</span>
+                        <span class="diff-name">FÁCIL</span>
+                        <span class="diff-reward">+25 EXP, +10 🪙</span>
+                    </button>
+                    <button class="difficulty-btn medium" onclick="playGame('medium')">
+                        <span class="diff-icon">😐</span>
+                        <span class="diff-name">MEDIO</span>
+                        <span class="diff-reward">+40 EXP, +20 🪙</span>
+                    </button>
+                    <button class="difficulty-btn hard" onclick="playGame('hard')">
+                        <span class="diff-icon">😤</span>
+                        <span class="diff-name">DIFÍCIL</span>
+                        <span class="diff-reward">+60 EXP, +35 🪙</span>
+                    </button>
+                </div>
+                <button class="close-modes-btn" onclick="hideGameModes()">Cerrar</button>
+            </div>
+        </div>
+
+        <!-- Paleta de tienda estática (lado izquierdo) -->
+        <div class="shop-paddle-static" onclick="openBlueShop()">
+            <div class="paddle-grip"></div>
+            <div class="paddle-blade">
+                <div class="paddle-surface-red"></div>
+                <div class="paddle-surface-black"></div>
+                <div class="paddle-logo">TIENDA</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INTERFAZ DE JUEGO AZUL -->
+    <div class="game-interface" id="gameInterface" style="display: none;">
+        <!-- Header del juego -->
+        <div class="game-header">
+            <button class="pause-btn" onclick="pauseGame()">⏸️</button>
+            <div class="score-display">
+                <div class="player-score">
+                    <span class="score-label">TÚ</span>
+                    <span class="score-number" id="playerScore">0</span>
+                </div>
+                <div class="set-info">
+                    <span id="currentSet">Set 1</span>
+                    <div class="sets-won">
+                        <span id="playerSets">0</span> - <span id="opponentSets">0</span>
+                    </div>
+                </div>
+                <div class="opponent-score">
+                    <span class="score-label">OPONENTE</span>
+                    <span class="score-number" id="opponentScore">0</span>
+                </div>
+            </div>
+            <div class="game-info">
+                <span id="difficultyDisplay">FÁCIL</span>
+            </div>
+        </div>
+
+        <!-- Mesa de juego 3D -->
+        <div class="game-table-container" id="gameTableContainer">
+            <div class="game-table">
+                <div class="table-surface-game"></div>
+                <div class="table-net-game"></div>
+
+                <!-- Paleta del jugador -->
+                <div class="player-paddle" id="playerPaddle">
+                    <div class="paddle-3d">
+                        <div class="paddle-handle-3d"></div>
+                        <div class="paddle-surface-3d"></div>
+                    </div>
+                </div>
+
+                <!-- Paleta del oponente -->
+                <div class="opponent-paddle" id="opponentPaddle">
+                    <div class="paddle-3d opponent">
+                        <div class="paddle-handle-3d"></div>
+                        <div class="paddle-surface-3d"></div>
+                    </div>
+                </div>
+
+                <!-- Pelota -->
+                <div class="ball" id="gameBall"></div>
+
+                <!-- Efectos de impacto -->
+                <div class="impact-effect" id="impactEffect"></div>
+            </div>
+        </div>
+
+        <!-- Controles del juego -->
+        <div class="game-controls">
+            <div class="control-instructions">
+                <span>Mueve tu paleta: ⬅️ ➡️ ⬆️ ⬇️ o arrastra con el mouse</span>
+            </div>
+        </div>
+
+        <!-- Panel de pausa -->
+        <div class="pause-overlay" id="pauseOverlay" style="display: none;">
+            <div class="pause-panel">
+                <h2>JUEGO PAUSADO</h2>
+                <button class="resume-btn" onclick="resumeGame()">Continuar</button>
+                <button class="quit-btn" onclick="quitGame()">Salir al Menú</button>
+            </div>
+        </div>
+
+        <!-- Panel de resultado -->
+        <div class="result-overlay" id="resultOverlay" style="display: none;">
+            <div class="result-panel">
+                <h2 id="resultTitle">¡VICTORIA!</h2>
+                <div class="final-score" id="finalScore">3 - 0</div>
+                <div class="rewards" id="gameRewards">
+                    <span>+40 EXP</span>
+                    <span>+20 🪙</span>
+                </div>
+                <button class="play-again-btn" onclick="playAgain()">Jugar de Nuevo</button>
+                <button class="menu-btn" onclick="backToMenu()">Volver al Menú</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- INTERFAZ DE TIENDA AZUL -->
+    <div class="blue-shop-interface" id="blueShopInterface" style="display: none;"></div>
+    <div class="shop-header">
+        <button class="back-btn" onclick="closeBlueShop()">← Volver</button>
+        <h1>🛒 TIENDA DE PING PONG</h1>
+        <div class="shop-coins">
+            <span class="coin-icon">🪙</span>
+            <span id="shopCoinsDisplay">50</span>
+        </div>
+    </div>
+
+    <div class="shop-categories">
+        <button class="category-btn active" onclick="showCategory('pelotas')">
+            <span class="category-icon">⚪</span>
+            Pelotas
+        </button>
+        <button class="category-btn" onclick="showCategory('paletas')">
+            <span class="category-icon">🏓</span>
+            Paletas
+        </button>
+        <button class="category-btn" onclick="showCategory('mesas')">
+            <span class="category-icon">🏓</span>
+            Mesas
+        </button>
+    </div>
+
+    <div class="shop-items-grid" id="shopItemsGrid">
+        <!-- Items se generan dinámicamente -->
+    </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
+
 </html>
