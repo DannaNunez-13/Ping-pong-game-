@@ -1724,51 +1724,52 @@ TERFAZ DE JUEGO AZUL ===== */
     filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.5));
 }
 
-/* Superficie principal de la mesa */
+/* Superficie principal de la mesa - Estilo Cartoon Azul */
 .table-surface-game {
     width: 100%;
     height: 100%;
-    background: #1a7f3e;
-    border: 8px solid #ffffff;
-    border-radius: 15px;
+    background: linear-gradient(180deg, #7eb3e6 0%, #5a9dd5 50%, #4a8bc4 100%);
+    border: 6px solid #ffffff;
+    border-radius: 12px;
     position: relative;
     transform-style: preserve-3d;
     box-shadow: 
-        0 0 30px rgba(26, 127, 62, 0.6),
-        inset 0 0 50px rgba(0, 0, 0, 0.15);
+        0 0 20px rgba(90, 157, 213, 0.4),
+        inset 0 0 30px rgba(255, 255, 255, 0.2);
 }
 
-/* Brillo superior de la mesa */
+/* Brillo superior de la mesa - Estilo cartoon */
 .table-surface-game::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 40%;
+    height: 50%;
     background: linear-gradient(180deg, 
-        rgba(255, 255, 255, 0.15) 0%, 
+        rgba(255, 255, 255, 0.3) 0%, 
+        rgba(255, 255, 255, 0.1) 50%,
         transparent 100%);
     border-radius: 8px 8px 0 0;
     pointer-events: none;
 }
 
-/* Grosor 3D de la mesa (borde lateral) */
+/* Grosor 3D de la mesa (borde lateral) - Gris claro */
 .table-surface-game::after {
     content: '';
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
-    height: 25px;
+    height: 30px;
     background: linear-gradient(180deg, 
-        #145a2e 0%, 
-        #0f4423 50%, 
-        #0a2e18 100%);
-    border-radius: 0 0 15px 15px;
+        #b8b8b8 0%, 
+        #9a9a9a 50%, 
+        #7a7a7a 100%);
+    border-radius: 0 0 12px 12px;
     box-shadow: 
-        0 5px 15px rgba(0, 0, 0, 0.5),
-        inset 0 -5px 10px rgba(0, 0, 0, 0.3);
+        0 8px 20px rgba(0, 0, 0, 0.4),
+        inset 0 -3px 8px rgba(0, 0, 0, 0.2);
     transform-origin: top;
     transform: rotateX(-90deg);
 }
@@ -1869,27 +1870,31 @@ TERFAZ DE JUEGO AZUL ===== */
 }
 
 .paddle-handle-3d {
-    width: 15px;
-    height: 30px;
-    background: linear-gradient(45deg, #8B4513, #A0522D);
-    border-radius: 0 0 8px 8px;
+    width: 18px;
+    height: 35px;
+    background: linear-gradient(90deg, #d4a574 0%, #c89860 50%, #b88a50 100%);
+    border-radius: 0 0 9px 9px;
     margin: 0 auto;
     position: relative;
-    box-shadow: 0 0 10px rgba(139, 69, 19, 0.5);
+    box-shadow: 
+        0 3px 8px rgba(0, 0, 0, 0.3),
+        inset 2px 0 4px rgba(255, 255, 255, 0.3),
+        inset -2px 0 4px rgba(0, 0, 0, 0.2);
+    border: 2px solid #a67c52;
 }
 
 .paddle-surface-3d {
-    width: 60px;
-    height: 50px;
-    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 50%, #a93226 100%);
+    width: 65px;
+    height: 55px;
+    background: radial-gradient(ellipse at 40% 40%, #ff6b6b 0%, #ee5a6f 40%, #d63447 100%);
     border-radius: 50%;
     margin-top: 5px;
     box-shadow: 
-        0 0 20px rgba(231, 76, 60, 0.7),
-        0 5px 15px rgba(0, 0, 0, 0.4),
-        inset 0 -5px 15px rgba(0, 0, 0, 0.3),
-        inset 0 5px 15px rgba(255, 255, 255, 0.2);
-    border: 3px solid white;
+        0 0 15px rgba(255, 107, 107, 0.6),
+        0 6px 12px rgba(0, 0, 0, 0.3),
+        inset 0 -8px 15px rgba(0, 0, 0, 0.25),
+        inset 0 8px 15px rgba(255, 255, 255, 0.3);
+    border: 4px solid #2c3e50;
     position: relative;
     transition: all 0.1s ease;
 }
@@ -1897,21 +1902,22 @@ TERFAZ DE JUEGO AZUL ===== */
 .paddle-surface-3d::before {
     content: '';
     position: absolute;
-    top: 10%;
-    left: 15%;
-    width: 30%;
-    height: 30%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.4), transparent);
+    top: 15%;
+    left: 20%;
+    width: 35%;
+    height: 35%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.5), transparent);
     border-radius: 50%;
 }
 
 .paddle-3d.opponent .paddle-surface-3d {
-    background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #4a6278 100%);
+    background: radial-gradient(ellipse at 40% 40%, #4a5568 0%, #2d3748 40%, #1a202c 100%);
     box-shadow: 
-        0 0 20px rgba(44, 62, 80, 0.7),
-        0 5px 15px rgba(0, 0, 0, 0.4),
-        inset 0 -5px 15px rgba(0, 0, 0, 0.3),
-        inset 0 5px 15px rgba(255, 255, 255, 0.2);
+        0 0 15px rgba(74, 85, 104, 0.6),
+        0 6px 12px rgba(0, 0, 0, 0.3),
+        inset 0 -8px 15px rgba(0, 0, 0, 0.3),
+        inset 0 8px 15px rgba(255, 255, 255, 0.2);
+    border: 4px solid #e74c3c;
 }
 
 /* ===== PELOTA ===== */
@@ -2564,32 +2570,23 @@ TERFAZ DE JUEGO AZUL ===== */
 
 /* ===== LÍNEAS DE LA MESA (MARCAS REGLAMENTARIAS) ===== */
 
-/* Línea central blanca */
+/* Línea central blanca - Estilo cartoon */
 .game-table::before {
     content: '';
     position: absolute;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 3px;
+    width: 4px;
     height: 100%;
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.8);
     z-index: 1;
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
 }
 
-/* Líneas laterales blancas */
+/* Sin líneas laterales para estilo más limpio */
 .game-table::after {
-    content: '';
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    right: 5px;
-    bottom: 5px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
-    pointer-events: none;
-    z-index: 1;
+    content: none;
 }
 
 /* Sombra proyectada de la mesa en el suelo */
