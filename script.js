@@ -690,13 +690,13 @@ function handleMouseMove(e) {
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
 
-    // Movimiento directo y súper responsivo
+    // Movimiento directo y ultra responsivo (sin lag)
     const targetX = Math.max(2, Math.min(98, x));
     const targetY = Math.max(60, Math.min(99, y));
 
-    // Movimiento casi instantáneo para mejor control
-    gameState.playerPaddlePos.x += (targetX - gameState.playerPaddlePos.x) * 0.8;
-    gameState.playerPaddlePos.y += (targetY - gameState.playerPaddlePos.y) * 0.8;
+    // Movimiento casi instantáneo - más ligero
+    gameState.playerPaddlePos.x += (targetX - gameState.playerPaddlePos.x) * 0.95;
+    gameState.playerPaddlePos.y += (targetY - gameState.playerPaddlePos.y) * 0.95;
 }
 
 function handleTouchMove(e) {
@@ -738,17 +738,17 @@ function gameLoop(currentTime) {
 }
 
 function updateKeyboardControls() {
-    let speed = 4.5; // Velocidad base mucho más rápida
+    let speed = 6.5; // Velocidad base más rápida y fluida
 
     // Velocidad adaptativa según la situación
     if (gameState.gamePhase === 'rally') {
         const ballSpeed = Math.sqrt(gameState.ballVelocity.x ** 2 + gameState.ballVelocity.y ** 2);
-        if (ballSpeed > 3) {
-            speed = 6.0; // Súper rápido para pelotas rápidas
+        if (ballSpeed > 2.5) {
+            speed = 8.0; // Muy rápido para pelotas rápidas
         }
     }
 
-    // Movimiento horizontal (más amplio y rápido)
+    // Movimiento horizontal (súper fluido)
     if (keysPressed['ArrowLeft'] || keysPressed['a'] || keysPressed['A']) {
         gameState.playerPaddlePos.x = Math.max(2, gameState.playerPaddlePos.x - speed);
     }
@@ -756,7 +756,7 @@ function updateKeyboardControls() {
         gameState.playerPaddlePos.x = Math.min(98, gameState.playerPaddlePos.x + speed);
     }
 
-    // Movimiento vertical (más amplio y rápido)
+    // Movimiento vertical (súper fluido)
     if (keysPressed['ArrowUp'] || keysPressed['w'] || keysPressed['W']) {
         gameState.playerPaddlePos.y = Math.max(60, gameState.playerPaddlePos.y - speed);
     }
@@ -768,39 +768,31 @@ function updateKeyboardControls() {
 function updateBallPhysics(deltaTime) {
     if (gameState.gamePhase === 'serve') return;
 
-    const speed = deltaTime * 0.04;
+    const speed = deltaTime * 0.06; // Aumentado para movimiento más fluido
 
-    // Efectos de spin más suaves y naturales
+    // Efectos de spin más suaves
     const spinEffect = {
-        x: gameState.ballSpin.sidespin * speed * 0.3,
-        y: gameState.ballSpin.topspin * speed * 0.2
+        x: gameState.ballSpin.sidespin * speed * 0.2,
+        y: gameState.ballSpin.topspin * speed * 0.15
     };
 
-    // Mover pelota con física más natural
+    // Mover pelota de forma más fluida y directa
     gameState.ballPosition.x += (gameState.ballVelocity.x + spinEffect.x) * speed;
     gameState.ballPosition.y += (gameState.ballVelocity.y + spinEffect.y) * speed;
 
-    // Simular gravedad sutil para rebotes más naturales
-    const gravity = 0.02;
-    gameState.ballVelocity.y += gravity * speed;
-
-    // Altura con rebote más natural
+    // Altura simple sin gravedad excesiva
     const distanceFromCenter = Math.abs(gameState.ballPosition.y - 50);
-    const bounceHeight = Math.sin((distanceFromCenter / 50) * Math.PI) * 10;
-    gameState.ballHeight = Math.max(0, bounceHeight + Math.abs(gameState.ballVelocity.y) * 0.5);
+    gameState.ballHeight = Math.max(0, Math.sin((distanceFromCenter / 50) * Math.PI) * 8);
 
-    // Reducir spin gradualmente
-    gameState.ballSpin.topspin *= 0.985;
-    gameState.ballSpin.sidespin *= 0.988;
+    // Reducir spin más rápido
+    gameState.ballSpin.topspin *= 0.98;
+    gameState.ballSpin.sidespin *= 0.98;
 
-    // Rebotes más naturales en paredes laterales con efecto de amortiguación
+    // Rebotes en paredes laterales más simples
     if (gameState.ballPosition.x <= 2 || gameState.ballPosition.x >= 98) {
-        gameState.ballVelocity.x *= -0.75; // Rebote con pérdida de energía
-        gameState.ballSpin.sidespin *= -0.4;
-
-        // Mantener pelota dentro de límites
+        gameState.ballVelocity.x *= -0.7;
+        gameState.ballSpin.sidespin *= -0.3;
         gameState.ballPosition.x = Math.max(2, Math.min(98, gameState.ballPosition.x));
-
         showImpactEffect(gameState.ballPosition.x, gameState.ballPosition.y, 0.8);
     }
 
@@ -851,19 +843,20 @@ function checkAdvancedPaddleCollisions() {
 function handlePlayerHit(ballX, ballY, paddleX, paddleY) {
     const hitOffset = (ballX - paddleX) / 18; // Normalizado con área más grande
 
-    // Golpe simple y predecible
-    const hitPower = 1.5; // Potencia constante
-    const baseAngle = -Math.PI / 2; // Hacia el oponente
-    const angleVariation = hitOffset * Math.PI / 8; // Control de dirección más suave
+    // Golpe más fluido y directo hacia el oponente
+    const hitPower = 2.0; // Potencia aumentada para mejor fluidez
+    
+    // Dirección directa hacia el oponente (arriba = negativo en Y)
+    const targetX = paddleX + (hitOffset * 30); // Dirección horizontal basada en donde golpeas
+    const directionX = (targetX - ballX) * 0.03;
+    const directionY = -hitPower; // Siempre hacia arriba (oponente)
+    
+    gameState.ballVelocity.x = directionX;
+    gameState.ballVelocity.y = directionY;
 
-    // Calcular velocidad de la pelota
-    const targetAngle = baseAngle + angleVariation;
-    gameState.ballVelocity.x = Math.sin(targetAngle) * hitPower;
-    gameState.ballVelocity.y = Math.cos(targetAngle) * hitPower;
-
-    // Spin mínimo para mayor predictibilidad
-    gameState.ballSpin.topspin = -0.1;
-    gameState.ballSpin.sidespin = hitOffset * 0.15;
+    // Spin mínimo
+    gameState.ballSpin.topspin = -0.05;
+    gameState.ballSpin.sidespin = hitOffset * 0.1;
 
     gameState.lastHitBy = 'player';
     gameState.rallyCount++;
@@ -892,36 +885,33 @@ function handleOpponentHit(ballX, ballY, paddleX, paddleY) {
     const hitOffset = (ballX - paddleX) / 12;
     const verticalOffset = (ballY - paddleY) / 8;
 
-    // IA decide estrategia
-    const shouldAttack = decideOpponentStrategy();
-    const hitPower = Math.min(ballSpeed * 0.7 + 1.0, 3.5);
-    const baseAngle = Math.PI / 2; // Hacia abajo
-
-    if (shouldAttack && Math.abs(hitOffset) < 0.6) {
-        // Ataque topspin del oponente
-        executeTopspinAttack('opponent', getOpponentPower());
+    // Golpe del oponente más fluido y directo hacia el jugador
+    const hitPower = 1.8;
+    
+    // Dirección hacia el jugador (abajo = positivo en Y)
+    const targetX = paddleX + (hitOffset * 25);
+    const directionX = (targetX - ballX) * 0.025;
+    const directionY = hitPower; // Siempre hacia abajo (jugador)
+    
+    // Agregar variación según dificultad
+    let errorX = 0;
+    if (gameState.difficulty === 'easy') {
+        errorX = (Math.random() - 0.5) * 0.8;
+    } else if (gameState.difficulty === 'medium') {
+        errorX = (Math.random() - 0.5) * 0.4;
     } else {
-        // Golpe de colocación o defensivo
-        let angleVariation = hitOffset * Math.PI / 8; // Menos variación que el jugador
-
-        // Agregar error según dificultad
-        if (gameState.difficulty === 'easy') {
-            angleVariation += (Math.random() - 0.5) * Math.PI / 4;
-        } else if (gameState.difficulty === 'medium') {
-            angleVariation += (Math.random() - 0.5) * Math.PI / 6;
-        }
-
-        const targetAngle = baseAngle + angleVariation;
-        gameState.ballVelocity.x = Math.sin(targetAngle) * hitPower * 0.85;
-        gameState.ballVelocity.y = Math.cos(targetAngle) * hitPower * 0.85;
-
-        // Spin del oponente
-        gameState.ballSpin.topspin = verticalOffset * 0.3;
-        gameState.ballSpin.sidespin = hitOffset * 0.2;
-
-        gameState.lastHitBy = 'opponent';
-        gameState.rallyCount++;
+        errorX = (Math.random() - 0.5) * 0.2;
     }
+    
+    gameState.ballVelocity.x = directionX + errorX;
+    gameState.ballVelocity.y = directionY;
+
+    // Spin mínimo
+    gameState.ballSpin.topspin = 0.05;
+    gameState.ballSpin.sidespin = hitOffset * 0.1;
+
+    gameState.lastHitBy = 'opponent';
+    gameState.rallyCount++;
 
     showImpactEffect(ballX, ballY);
 }
@@ -932,62 +922,63 @@ function updateOpponentAI() {
     const paddleX = gameState.opponentPaddlePos.x;
     const paddleY = gameState.opponentPaddlePos.y;
 
-    // IA más balanceada y menos agresiva
-    let aiSpeed = 1.0;
-    let aiAccuracy = 0.7;
+    // IA más fluida y reactiva
+    let aiSpeed = 2.5;
     let errorRate = 0.3;
 
     switch (gameState.difficulty) {
         case 'easy':
-            aiSpeed = 0.8;
-            aiAccuracy = 0.5;
-            errorRate = 0.4;
+            aiSpeed = 1.8;
+            errorRate = 0.5;
             break;
         case 'medium':
-            aiSpeed = 1.2;
-            aiAccuracy = 0.7;
-            errorRate = 0.25;
+            aiSpeed = 2.8;
+            errorRate = 0.3;
             break;
         case 'hard':
-            aiSpeed = 1.6;
-            aiAccuracy = 0.85;
+            aiSpeed = 3.5;
             errorRate = 0.15;
             break;
     }
 
-    // Saque automático más lento
+    // Saque automático
     if (gameState.gamePhase === 'serve' && gameState.serverSide === 'opponent') {
         setTimeout(() => {
-            const targetX = 40 + Math.random() * 20; // Saque más centrado
+            const targetX = 40 + Math.random() * 20;
             executeServe('opponent', targetX);
-        }, 1200);
+        }, 1000);
         return;
     }
 
-    // Movimiento más simple y predecible
+    // Movimiento reactivo cuando la pelota viene hacia el oponente
     if (gameState.gamePhase === 'rally' && gameState.ballVelocity.y < 0) {
-        // Seguir la pelota de forma más básica
+        // Predecir posición de la pelota
         let targetX = ballX;
+        
+        // Predicción simple basada en velocidad
+        if (ballY > 30) {
+            targetX = ballX + (gameState.ballVelocity.x * 5);
+        }
 
-        // Agregar error intencional
+        // Agregar error según dificultad
         if (Math.random() < errorRate) {
-            targetX += (Math.random() - 0.5) * 30;
+            targetX += (Math.random() - 0.5) * 25;
         }
 
         // Limitar objetivo
         targetX = Math.max(10, Math.min(90, targetX));
 
-        // Mover hacia el objetivo más lentamente
+        // Movimiento más fluido y rápido
         const horizontalDiff = targetX - paddleX;
-        if (Math.abs(horizontalDiff) > 2) {
-            const moveSpeed = Math.min(aiSpeed, Math.abs(horizontalDiff) * 0.2);
+        if (Math.abs(horizontalDiff) > 1) {
+            const moveSpeed = Math.min(aiSpeed, Math.abs(horizontalDiff) * 0.3);
             gameState.opponentPaddlePos.x += Math.sign(horizontalDiff) * moveSpeed;
         }
 
-        // Posición vertical más estática
+        // Posición vertical adaptativa
         const targetY = 12;
         const verticalDiff = targetY - paddleY;
-        if (Math.abs(verticalDiff) > 1) {
+        if (Math.abs(verticalDiff) > 0.5) {
             gameState.opponentPaddlePos.y += Math.sign(verticalDiff) * 0.5;
         }
 
