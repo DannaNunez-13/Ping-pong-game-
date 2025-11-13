@@ -845,12 +845,12 @@ function handlePlayerHit(ballX, ballY, paddleX, paddleY) {
 
     // Golpe más fluido y directo hacia el oponente
     const hitPower = 2.0; // Potencia aumentada para mejor fluidez
-    
+
     // Dirección directa hacia el oponente (arriba = negativo en Y)
     const targetX = paddleX + (hitOffset * 30); // Dirección horizontal basada en donde golpeas
     const directionX = (targetX - ballX) * 0.03;
     const directionY = -hitPower; // Siempre hacia arriba (oponente)
-    
+
     gameState.ballVelocity.x = directionX;
     gameState.ballVelocity.y = directionY;
 
@@ -887,12 +887,12 @@ function handleOpponentHit(ballX, ballY, paddleX, paddleY) {
 
     // Golpe del oponente más fluido y directo hacia el jugador
     const hitPower = 1.8;
-    
+
     // Dirección hacia el jugador (abajo = positivo en Y)
     const targetX = paddleX + (hitOffset * 25);
     const directionX = (targetX - ballX) * 0.025;
     const directionY = hitPower; // Siempre hacia abajo (jugador)
-    
+
     // Agregar variación según dificultad
     let errorX = 0;
     if (gameState.difficulty === 'easy') {
@@ -902,7 +902,7 @@ function handleOpponentHit(ballX, ballY, paddleX, paddleY) {
     } else {
         errorX = (Math.random() - 0.5) * 0.2;
     }
-    
+
     gameState.ballVelocity.x = directionX + errorX;
     gameState.ballVelocity.y = directionY;
 
@@ -954,7 +954,7 @@ function updateOpponentAI() {
     if (gameState.gamePhase === 'rally' && gameState.ballVelocity.y < 0) {
         // Predecir posición de la pelota
         let targetX = ballX;
-        
+
         // Predicción simple basada en velocidad
         if (ballY > 30) {
             targetX = ballX + (gameState.ballVelocity.x * 5);
@@ -1028,8 +1028,8 @@ function updateVisualPositions() {
     const heightScale = 1 + (gameState.ballHeight * 0.03);
     ball.style.transform = `translate(-50%, -50%) scale(${heightScale})`;
 
-    // Agregar clases según velocidad para efectos visuales
-    ball.classList.remove('speed-1', 'speed-2', 'speed-3', 'moving', 'spinning');
+    // Agregar clases según velocidad para efectos visuales (sin spinning para evitar temblor)
+    ball.classList.remove('speed-1', 'speed-2', 'speed-3', 'moving');
 
     if (ballSpeed > 0.5) {
         ball.classList.add('moving');
@@ -1042,13 +1042,8 @@ function updateVisualPositions() {
             ball.classList.add('speed-1');
         }
 
-        // Efecto de spin si hay rotación
-        if (Math.abs(gameState.ballSpin.topspin) > 0.2 || Math.abs(gameState.ballSpin.sidespin) > 0.2) {
-            ball.classList.add('spinning');
-        }
-
-        // Crear partículas cuando va rápido
-        if (ballSpeed > 2.5 && Math.random() > 0.7) {
+        // Crear partículas cuando va rápido (menos frecuente para suavidad)
+        if (ballSpeed > 2.8 && Math.random() > 0.85) {
             createBallParticle(gameState.ballPosition.x, gameState.ballPosition.y);
         }
     }

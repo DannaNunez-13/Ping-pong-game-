@@ -1927,17 +1927,11 @@ TERFAZ DE JUEGO AZUL ===== */
         inset -3px -3px 8px rgba(0, 0, 0, 0.15),
         inset 2px 2px 6px rgba(255, 255, 255, 0.8);
     z-index: 15;
-    transition: all 0.05s linear;
+    transition: none;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    animation: ballSpin 1s linear infinite;
-}
-
-@keyframes ballSpin {
-    0% { filter: brightness(1); }
-    50% { filter: brightness(1.1); }
-    100% { filter: brightness(1); }
+    /* Sin animación de spin para evitar temblor */
 }
 
 .ball-return-center {
@@ -2415,8 +2409,8 @@ TERFAZ DE JUEGO AZUL ===== */
 }
 
 @keyframes glowPulse {
-    0% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.9); }
-    100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+    0% { opacity: 0.7; transform: translate(-50%, -50%) scale(0.95); }
+    100% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.05); }
 }
 
 /* Rastro de la pelota */
@@ -2516,13 +2510,7 @@ TERFAZ DE JUEGO AZUL ===== */
     box-shadow: 
         0 0 45px rgba(255, 100, 100, 1),
         0 5px 25px rgba(0, 0, 0, 0.5);
-    animation: ballSpeedShake 0.1s ease-in-out infinite;
-}
-
-@keyframes ballSpeedShake {
-    0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
-    25% { transform: translate(-50%, -50%) rotate(2deg); }
-    75% { transform: translate(-50%, -50%) rotate(-2deg); }
+    /* Sin animación de temblor */
 }
 
 /* Efecto de rebote mejorado */
@@ -2558,28 +2546,7 @@ TERFAZ DE JUEGO AZUL ===== */
     transition: all 0.1s ease;
 }
 
-/* Efecto de spin visible en la pelota */
-.ball.spinning {
-    animation: ballSpinEffect 0.5s linear infinite;
-}
-
-@keyframes ballSpinEffect {
-    0% { 
-        background: radial-gradient(circle at 35% 35%, #ffffff, #f8f9fa 40%, #e9ecef 70%, #dee2e6);
-    }
-    25% { 
-        background: radial-gradient(circle at 65% 35%, #ffffff, #f8f9fa 40%, #e9ecef 70%, #dee2e6);
-    }
-    50% { 
-        background: radial-gradient(circle at 65% 65%, #ffffff, #f8f9fa 40%, #e9ecef 70%, #dee2e6);
-    }
-    75% { 
-        background: radial-gradient(circle at 35% 65%, #ffffff, #f8f9fa 40%, #e9ecef 70%, #dee2e6);
-    }
-    100% { 
-        background: radial-gradient(circle at 35% 35%, #ffffff, #f8f9fa 40%, #e9ecef 70%, #dee2e6);
-    }
-}
+/* Efecto de spin eliminado para evitar temblor */
 
 /* Efecto de onda cuando la pelota pasa por la red */
 .ball.net-pass {
@@ -2660,23 +2627,7 @@ TERFAZ DE JUEGO AZUL ===== */
     transition: none !important;
 }
 
-/* Cursor personalizado en el área de juego */
+/* Cursor normal en el área de juego */
 .game-table-container {
-    cursor: none;
-}
-
-/* Cursor personalizado como paleta pequeña */
-.game-table-container::before {
-    content: '🏓';
-    position: fixed;
-    font-size: 1.5rem;
-    pointer-events: none;
-    z-index: 1000;
-    transform: translate(-50%, -50%);
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-    display: none;
-}
-
-.game-table-container:hover::before {
-    display: block;
+    cursor: default;
 }
