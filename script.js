@@ -870,12 +870,12 @@ function handlePlayerHit(ballX, ballY, paddleX, paddleY) {
 
     // Efectos visuales mejorados
     showImpactEffect(ballX, ballY, 1.2);
-    
+
     // Efecto de golpe en la pelota
     const ball = document.getElementById('gameBall');
     ball.classList.add('hit-effect');
     setTimeout(() => ball.classList.remove('hit-effect'), 200);
-    
+
     // Crear partículas en el impacto
     for (let i = 0; i < 5; i++) {
         setTimeout(() => createBallParticle(ballX, ballY), i * 20);
@@ -1032,17 +1032,17 @@ function updateVisualPositions() {
 
     // Calcular velocidad de la pelota
     const ballSpeed = Math.sqrt(gameState.ballVelocity.x ** 2 + gameState.ballVelocity.y ** 2);
-    
+
     // Efecto de altura más visible
     const heightScale = 1 + (gameState.ballHeight * 0.03);
     ball.style.transform = `translate(-50%, -50%) scale(${heightScale})`;
 
     // Agregar clases según velocidad para efectos visuales
     ball.classList.remove('speed-1', 'speed-2', 'speed-3', 'moving', 'spinning');
-    
+
     if (ballSpeed > 0.5) {
         ball.classList.add('moving');
-        
+
         if (ballSpeed > 3) {
             ball.classList.add('speed-3');
         } else if (ballSpeed > 2) {
@@ -1050,12 +1050,12 @@ function updateVisualPositions() {
         } else if (ballSpeed > 1) {
             ball.classList.add('speed-1');
         }
-        
+
         // Efecto de spin si hay rotación
         if (Math.abs(gameState.ballSpin.topspin) > 0.2 || Math.abs(gameState.ballSpin.sidespin) > 0.2) {
             ball.classList.add('spinning');
         }
-        
+
         // Crear partículas cuando va rápido
         if (ballSpeed > 2.5 && Math.random() > 0.7) {
             createBallParticle(gameState.ballPosition.x, gameState.ballPosition.y);
@@ -1112,19 +1112,19 @@ function updateVisualPositions() {
 function createBallParticle(x, y) {
     const particlesContainer = document.getElementById('ballParticles');
     if (!particlesContainer) return;
-    
+
     const particle = document.createElement('div');
     particle.className = 'ball-particle';
     particle.style.left = x + '%';
     particle.style.top = y + '%';
-    
+
     // Posición aleatoria alrededor de la pelota
     const offsetX = (Math.random() - 0.5) * 10;
     const offsetY = (Math.random() - 0.5) * 10;
     particle.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-    
+
     particlesContainer.appendChild(particle);
-    
+
     // Eliminar después de la animación
     setTimeout(() => {
         particlesContainer.removeChild(particle);
