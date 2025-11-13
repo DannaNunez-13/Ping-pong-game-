@@ -293,16 +293,21 @@
                 <div class="player-score">
                     <span class="score-label">TÚ</span>
                     <span class="score-number" id="playerScore">0</span>
+                    <div class="sets-indicator">
+                        <span class="sets-label">Sets:</span>
+                        <span class="sets-count" id="playerSets">0</span>
+                    </div>
                 </div>
                 <div class="set-info">
-                    <span id="currentSet">Set 1</span>
-                    <div class="sets-won">
-                        <span id="playerSets">0</span> - <span id="opponentSets">0</span>
-                    </div>
+                    <span id="currentSet">Set 1 (Tú: 0 - 0 Oponente)</span>
                 </div>
                 <div class="opponent-score">
                     <span class="score-label">OPONENTE</span>
                     <span class="score-number" id="opponentScore">0</span>
+                    <div class="sets-indicator">
+                        <span class="sets-label">Sets:</span>
+                        <span class="sets-count" id="opponentSets">0</span>
+                    </div>
                 </div>
             </div>
             <div class="game-info">
@@ -315,6 +320,14 @@
             <div class="game-table">
                 <div class="table-surface-game"></div>
                 <div class="table-net-game"></div>
+                
+                <!-- Patas de la mesa -->
+                <div class="table-legs">
+                    <div class="table-leg leg-1"></div>
+                    <div class="table-leg leg-2"></div>
+                    <div class="table-leg leg-3"></div>
+                    <div class="table-leg leg-4"></div>
+                </div>
 
                 <!-- Paleta del jugador -->
                 <div class="player-paddle" id="playerPaddle">
@@ -333,10 +346,16 @@
                 </div>
 
                 <!-- Pelota -->
-                <div class="ball" id="gameBall"></div>
+                <div class="ball" id="gameBall">
+                    <div class="ball-glow"></div>
+                    <div class="ball-trail"></div>
+                </div>
 
                 <!-- Efectos de impacto -->
                 <div class="impact-effect" id="impactEffect"></div>
+                
+                <!-- Partículas de la pelota -->
+                <div class="ball-particles" id="ballParticles"></div>
             </div>
         </div>
 
