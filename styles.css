@@ -1585,9 +1585,9 @@ TERFAZ DE JUEGO AZUL ===== */
     width: 100%;
     height: 100vh;
     background: linear-gradient(180deg, 
-        #e8e8e8 0%,
-        #f0f0f0 30%,
-        #d4756b 30%,
+        #f5f5f5 0%,
+        #e0e0e0 40%,
+        #d4756b 40%,
         #c86b61 100%);
     display: none;
     flex-direction: column;
@@ -1713,89 +1713,74 @@ TERFAZ DE JUEGO AZUL ===== */
     display: flex;
     justify-content: center;
     align-items: center;
-    perspective: 1000px;
-    perspective-origin: 50% 40%;
+    perspective: 1200px;
+    perspective-origin: 50% 35%;
     position: relative;
-}
-
-/* Suelo rojo terracota con líneas blancas */
-.game-table-container::before {
-    content: '';
-    position: absolute;
-    width: 120%;
-    height: 120%;
-    background: 
-        /* Líneas blancas del suelo */
-        linear-gradient(90deg, transparent 0%, transparent 20%, rgba(255,255,255,0.8) 20%, rgba(255,255,255,0.8) 22%, transparent 22%, transparent 78%, rgba(255,255,255,0.8) 78%, rgba(255,255,255,0.8) 80%, transparent 80%),
-        linear-gradient(0deg, transparent 0%, transparent 25%, rgba(255,255,255,0.8) 25%, rgba(255,255,255,0.8) 27%, transparent 27%, transparent 73%, rgba(255,255,255,0.8) 73%, rgba(255,255,255,0.8) 75%, transparent 75%),
-        /* Color base terracota */
-        #d4756b;
-    z-index: -2;
-    transform: rotateX(90deg) translateZ(-200px);
 }
 
 .game-table {
-    width: 600px;
-    height: 350px;
+    width: 700px;
+    height: 400px;
     position: relative;
-    transform: rotateX(65deg) rotateY(0deg) translateY(-50px);
+    transform: rotateX(60deg) rotateY(0deg) translateY(-30px);
     transform-style: preserve-3d;
-    filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.4));
+    filter: drop-shadow(0 40px 80px rgba(0, 0, 0, 0.6));
 }
 
-/* Superficie principal de la mesa - Azul brillante exacto */
+/* Superficie principal de la mesa - Negra profesional */
 .table-surface-game {
     width: 100%;
     height: 100%;
     background: 
         /* Línea central blanca */
         linear-gradient(90deg, 
-            transparent calc(50% - 2px),
-            rgba(255, 255, 255, 0.95) calc(50% - 2px),
+            transparent calc(50% - 1.5px),
+            rgba(255, 255, 255, 0.9) calc(50% - 1.5px),
             rgba(255, 255, 255, 1) 50%,
-            rgba(255, 255, 255, 0.95) calc(50% + 2px),
-            transparent calc(50% + 2px)),
-        /* Brillo superior */
-        radial-gradient(ellipse at 50% 20%, rgba(255, 255, 255, 0.3) 0%, transparent 60%),
-        /* Color azul base brillante */
-        linear-gradient(180deg, 
-            #4a7bc8 0%, 
-            #3a6bb8 30%,
-            #2a5ba8 70%, 
-            #1a4b98 100%);
-    border: 4px solid rgba(255, 255, 255, 0.9);
-    border-radius: 4px;
+            rgba(255, 255, 255, 0.9) calc(50% + 1.5px),
+            transparent calc(50% + 1.5px)),
+        /* Brillo superior sutil */
+        radial-gradient(ellipse at 50% 30%, rgba(255, 255, 255, 0.15) 0%, transparent 70%),
+        /* Superficie negra mate profesional */
+        linear-gradient(135deg, 
+            #2a2a2a 0%, 
+            #1a1a1a 30%,
+            #0f0f0f 70%, 
+            #050505 100%);
+    border: 6px solid #c0c0c0;
+    border-radius: 8px;
     position: relative;
     transform-style: preserve-3d;
     box-shadow: 
-        0 0 30px rgba(74, 123, 200, 0.6),
-        inset 0 0 100px rgba(0, 0, 0, 0.1),
-        inset 0 -30px 60px rgba(0, 0, 0, 0.15),
-        inset 0 30px 40px rgba(255, 255, 255, 0.1);
+        0 0 40px rgba(0, 0, 0, 0.8),
+        inset 0 0 80px rgba(0, 0, 0, 0.3),
+        inset 0 -20px 40px rgba(0, 0, 0, 0.4),
+        inset 0 20px 30px rgba(255, 255, 255, 0.05);
 }
 
-/* Borde lateral azul oscuro */
+/* Borde lateral plateado */
 .table-surface-game::before {
     content: '';
     position: absolute;
     top: 100%;
-    left: -4px;
-    right: -4px;
-    height: 25px;
+    left: -6px;
+    right: -6px;
+    height: 35px;
     background: linear-gradient(180deg, 
-        #1a4b98 0%, 
-        #0f3b88 50%, 
-        #042b78 100%);
-    border-radius: 0 0 4px 4px;
+        #c0c0c0 0%, 
+        #a0a0a0 30%,
+        #808080 70%, 
+        #606060 100%);
+    border-radius: 0 0 8px 8px;
     box-shadow: 
-        0 8px 25px rgba(0, 0, 0, 0.6),
-        inset 0 -5px 15px rgba(0, 0, 0, 0.4);
+        0 12px 30px rgba(0, 0, 0, 0.7),
+        inset 0 -8px 20px rgba(0, 0, 0, 0.5),
+        inset 0 3px 10px rgba(255, 255, 255, 0.3);
     transform-origin: top;
     transform: rotateX(-90deg);
     z-index: 1;
 }
 
-/* Sin after para evitar conflictos */
 .table-surface-game::after {
     content: none;
 }
@@ -1803,21 +1788,24 @@ TERFAZ DE JUEGO AZUL ===== */
 .table-net-game {
     position: absolute;
     top: 50%;
-    left: -2%;
-    right: -2%;
-    height: 25px;
-    background: rgba(255, 255, 255, 0.95);
-    transform: translateY(-50%) translateZ(15px);
+    left: -3%;
+    right: -3%;
+    height: 30px;
+    background: linear-gradient(180deg, 
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(240, 240, 240, 0.9) 50%,
+        rgba(255, 255, 255, 0.95) 100%);
+    transform: translateY(-50%) translateZ(20px);
     box-shadow: 
-        0 0 10px rgba(0, 0, 0, 0.3),
-        0 8px 15px rgba(0, 0, 0, 0.4);
-    border-radius: 2px;
-    border-top: 2px solid #e0e0e0;
-    border-bottom: 2px solid #d0d0d0;
+        0 0 15px rgba(0, 0, 0, 0.4),
+        0 10px 20px rgba(0, 0, 0, 0.5);
+    border-radius: 3px;
+    border-top: 3px solid #e0e0e0;
+    border-bottom: 3px solid #c0c0c0;
     transform-style: preserve-3d;
 }
 
-/* Textura de malla blanca */
+/* Textura de malla profesional */
 .table-net-game::before {
     content: '';
     position: absolute;
@@ -1829,36 +1817,44 @@ TERFAZ DE JUEGO AZUL ===== */
         repeating-linear-gradient(
             90deg,
             transparent,
-            transparent 4px,
-            rgba(0, 0, 0, 0.15) 4px,
-            rgba(0, 0, 0, 0.15) 5px
+            transparent 5px,
+            rgba(0, 0, 0, 0.2) 5px,
+            rgba(0, 0, 0, 0.2) 6px
         ),
         repeating-linear-gradient(
             0deg,
             transparent,
-            transparent 2px,
-            rgba(0, 0, 0, 0.12) 2px,
-            rgba(0, 0, 0, 0.12) 3px
-        );
-    border-radius: 1px;
+            transparent 3px,
+            rgba(0, 0, 0, 0.18) 3px,
+            rgba(0, 0, 0, 0.18) 4px
+        ),
+        linear-gradient(180deg,
+            rgba(255, 255, 255, 0.1) 0%,
+            transparent 50%,
+            rgba(0, 0, 0, 0.05) 100%);
+    border-radius: 2px;
 }
 
-/* Postes laterales grises */
+/* Postes laterales metálicos */
 .table-net-game::after {
     content: '';
     position: absolute;
-    top: -5px;
-    left: -8px;
-    width: 8px;
-    height: 35px;
+    top: -8px;
+    left: -10px;
+    width: 10px;
+    height: 46px;
     background: linear-gradient(180deg, 
-        #c0c0c0 0%, 
-        #a0a0a0 50%, 
+        #e0e0e0 0%,
+        #c0c0c0 30%, 
+        #a0a0a0 70%,
         #808080 100%);
-    border-radius: 4px;
+    border-radius: 5px;
     box-shadow: 
-        0 2px 6px rgba(0, 0, 0, 0.5),
-        calc(100% + 16px) 0 0 0 #c0c0c0;
+        0 3px 8px rgba(0, 0, 0, 0.6),
+        inset 2px 0 4px rgba(255, 255, 255, 0.3),
+        inset -2px 0 4px rgba(0, 0, 0, 0.3),
+        calc(100% + 20px) 0 0 0 #e0e0e0,
+        calc(100% + 20px) 3px 8px 0 rgba(0, 0, 0, 0.6);
 }
 
 /* ===== PALETAS 3D ===== */
@@ -1892,40 +1888,42 @@ TERFAZ DE JUEGO AZUL ===== */
 }
 
 .paddle-handle-3d {
-    width: 20px;
-    height: 40px;
+    width: 22px;
+    height: 45px;
     background: linear-gradient(90deg, 
         #8B4513 0%, 
-        #A0522D 30%,
-        #CD853F 50%,
-        #A0522D 70%,
+        #A0522D 20%,
+        #CD853F 40%,
+        #DEB887 50%,
+        #CD853F 60%,
+        #A0522D 80%,
         #8B4513 100%);
-    border-radius: 0 0 10px 10px;
+    border-radius: 0 0 11px 11px;
     margin: 0 auto;
     position: relative;
     box-shadow: 
-        0 4px 10px rgba(0, 0, 0, 0.4),
-        inset 3px 0 6px rgba(255, 255, 255, 0.2),
-        inset -3px 0 6px rgba(0, 0, 0, 0.3);
-    border: 2px solid #654321;
+        0 5px 12px rgba(0, 0, 0, 0.5),
+        inset 4px 0 8px rgba(255, 255, 255, 0.3),
+        inset -4px 0 8px rgba(0, 0, 0, 0.4);
+    border: 3px solid #654321;
 }
 
 .paddle-surface-3d {
-    width: 70px;
-    height: 60px;
-    background: radial-gradient(ellipse at 35% 35%, 
-        #1a1a1a 0%, 
-        #2a2a2a 30%,
-        #1a1a1a 60%,
-        #0a0a0a 100%);
+    width: 75px;
+    height: 65px;
+    background: radial-gradient(ellipse at 40% 30%, 
+        #2a2a2a 0%, 
+        #1a1a1a 40%,
+        #0f0f0f 70%,
+        #050505 100%);
     border-radius: 50%;
     margin-top: 5px;
     box-shadow: 
-        0 0 20px rgba(0, 0, 0, 0.8),
-        0 8px 15px rgba(0, 0, 0, 0.5),
-        inset 0 -10px 20px rgba(0, 0, 0, 0.4),
-        inset 0 10px 20px rgba(255, 255, 255, 0.1);
-    border: 5px solid #c41e3a;
+        0 0 25px rgba(0, 0, 0, 0.9),
+        0 10px 20px rgba(0, 0, 0, 0.6),
+        inset 0 -12px 25px rgba(0, 0, 0, 0.5),
+        inset 0 12px 25px rgba(255, 255, 255, 0.08);
+    border: 6px solid #c0c0c0;
     position: relative;
     transition: all 0.1s ease;
 }
@@ -1933,26 +1931,26 @@ TERFAZ DE JUEGO AZUL ===== */
 .paddle-surface-3d::before {
     content: '';
     position: absolute;
-    top: 20%;
-    left: 25%;
-    width: 30%;
-    height: 30%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.15), transparent);
+    top: 25%;
+    left: 30%;
+    width: 25%;
+    height: 25%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.12), transparent);
     border-radius: 50%;
 }
 
 .paddle-3d.opponent .paddle-surface-3d {
-    background: radial-gradient(ellipse at 35% 35%, 
-        #c41e3a 0%, 
-        #a01828 30%,
-        #801220 60%,
-        #600e18 100%);
+    background: radial-gradient(ellipse at 40% 30%, 
+        #8B0000 0%, 
+        #660000 40%,
+        #440000 70%,
+        #220000 100%);
     box-shadow: 
-        0 0 20px rgba(196, 30, 58, 0.6),
-        0 8px 15px rgba(0, 0, 0, 0.5),
-        inset 0 -10px 20px rgba(0, 0, 0, 0.4),
-        inset 0 10px 20px rgba(255, 255, 255, 0.2);
-    border: 5px solid #1a1a1a;
+        0 0 25px rgba(139, 0, 0, 0.7),
+        0 10px 20px rgba(0, 0, 0, 0.6),
+        inset 0 -12px 25px rgba(0, 0, 0, 0.5),
+        inset 0 12px 25px rgba(255, 255, 255, 0.1);
+    border: 6px solid #404040;
 }
 
 /* ===== PELOTA ===== */
@@ -2341,7 +2339,7 @@ TERFAZ DE JUEGO AZUL ===== */
     }
 }
 
-/* ===== SOPORTE VERDE TRANSLÚCIDO ARQUEADO ===== */
+/* ===== PATAS METÁLICAS PROFESIONALES ===== */
 .table-legs {
     position: absolute;
     width: 100%;
@@ -2352,75 +2350,88 @@ TERFAZ DE JUEGO AZUL ===== */
     transform-style: preserve-3d;
 }
 
-/* Soporte principal verde arqueado */
 .table-leg {
     position: absolute;
-    width: 100%;
-    height: 80px;
-    top: 100%;
-    left: 0;
-    background: 
-        /* Brillo superior */
-        linear-gradient(180deg, 
-            rgba(255, 255, 255, 0.4) 0%,
-            rgba(255, 255, 255, 0.2) 30%,
-            transparent 70%),
-        /* Color verde translúcido */
-        linear-gradient(180deg, 
-            #7bc142 0%, 
-            #6bb132 30%,
-            #5ba122 70%, 
-            #4b9112 100%);
-    border-radius: 0 0 50px 50px;
+    width: 25px;
+    height: 120px;
+    background: linear-gradient(90deg, 
+        #f0f0f0 0%,
+        #e0e0e0 20%,
+        #d0d0d0 40%,
+        #c0c0c0 60%,
+        #b0b0b0 80%,
+        #a0a0a0 100%);
+    border-radius: 6px;
     box-shadow: 
-        0 15px 40px rgba(0, 0, 0, 0.4),
-        inset 0 5px 20px rgba(255, 255, 255, 0.3),
-        inset 0 -5px 20px rgba(0, 0, 0, 0.2);
+        0 10px 30px rgba(0, 0, 0, 0.7),
+        inset 3px 0 8px rgba(255, 255, 255, 0.4),
+        inset -3px 0 8px rgba(0, 0, 0, 0.3);
     transform-origin: top center;
-    transform: translateZ(-20px);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top: none;
+    transform-style: preserve-3d;
+    border: 2px solid #909090;
 }
 
-/* Patas cilíndricas en las esquinas */
+/* Base de las patas metálica */
 .table-leg::before {
     content: '';
     position: absolute;
-    bottom: -15px;
-    left: 10%;
-    width: 15px;
-    height: 15px;
-    background: radial-gradient(circle, 
-        #2a2a2a 0%, 
-        #1a1a1a 70%,
-        #0a0a0a 100%);
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 35px;
+    height: 12px;
+    background: radial-gradient(ellipse, 
+        #808080 0%, 
+        #606060 50%,
+        #404040 100%);
     border-radius: 50%;
     box-shadow: 
-        0 3px 8px rgba(0, 0, 0, 0.8),
-        15px 0 0 0 #2a2a2a,
-        30px 0 0 0 #2a2a2a,
-        45px 0 0 0 #2a2a2a;
+        0 3px 10px rgba(0, 0, 0, 0.8),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.6);
 }
 
-/* Eliminar patas individuales */
-.leg-1, .leg-2, .leg-3, .leg-4 {
-    display: none;
+/* Posicionamiento de las 4 patas */
+.leg-1 {
+    top: 100%;
+    left: 8%;
+    transform: translateY(10px) translateZ(-25px);
 }
 
-/* Refuerzo central del soporte */
+.leg-2 {
+    top: 100%;
+    right: 8%;
+    transform: translateY(10px) translateZ(-25px);
+}
+
+.leg-3 {
+    bottom: -120px;
+    left: 8%;
+    transform: translateY(-10px) translateZ(-25px);
+}
+
+.leg-4 {
+    bottom: -120px;
+    right: 8%;
+    transform: translateY(-10px) translateZ(-25px);
+}
+
+/* Refuerzo horizontal metálico */
 .table-leg::after {
     content: '';
     position: absolute;
-    top: 20px;
+    top: 70%;
     left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
-    height: 8px;
-    background: linear-gradient(90deg, 
-        transparent 0%,
-        rgba(255, 255, 255, 0.4) 50%,
-        transparent 100%);
+    width: 15px;
+    height: 50px;
+    background: linear-gradient(180deg, 
+        #d0d0d0 0%, 
+        #b0b0b0 50%, 
+        #909090 100%);
     border-radius: 4px;
+    transform: translate(-50%, -50%);
+    box-shadow: 
+        inset 2px 0 4px rgba(255, 255, 255, 0.2),
+        inset -2px 0 4px rgba(0, 0, 0, 0.4);
 }
 
 /* ===== PELOTA INTERACTIVA MEJORADA ===== */
@@ -2664,20 +2675,9 @@ TERFAZ DE JUEGO AZUL ===== */
     outline-offset: -3px;
 }
 
-/* ===== LÍNEAS BLANCAS DE BORDE ===== */
-
-/* Líneas blancas en los bordes de la mesa */
+/* Bordes ya incluidos en la superficie */
 .game-table::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border: 3px solid rgba(255, 255, 255, 0.9);
-    border-radius: 4px;
-    pointer-events: none;
-    z-index: 2;
+    content: none;
 }
 
 .game-table::after {
