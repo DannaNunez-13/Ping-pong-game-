@@ -10,7 +10,6 @@
 
 <body>
     <div class="loading-container">
-        <div class="game-title">PING PONG 3D</div>
 
         <div class="progress-container">
             <div class="progress-bar">
@@ -67,9 +66,9 @@
                     <span class="btn-icon">🛒</span>
                     TIENDA
                 </button>
-                <button class="main-btn customize-btn" onclick="showCustomize()">
-                    <span class="btn-icon">🎨</span>
-                    PERSONALIZAR
+                <button class="main-btn customize-btn" onclick="openBlueShop()">
+                    <span class="btn-icon">🏓</span>
+                    TIENDA
                 </button>
                 <button class="main-btn options-btn" onclick="showOptions()">
                     <span class="btn-icon">⚙️</span>
@@ -191,11 +190,21 @@
 
     <!-- INTERFAZ PRINCIPAL -->
     <div class="main-interface" id="mainInterface" style="display: none;">
-        <!-- Fondo dinámico -->
+        <!-- Fondo dinámico con más partículas -->
         <div class="dynamic-background">
             <div class="bg-particle"></div>
             <div class="bg-particle"></div>
             <div class="bg-particle"></div>
+            <div class="bg-particle"></div>
+            <div class="bg-particle"></div>
+            <div class="bg-particle"></div>
+        </div>
+
+        <!-- Efectos de luz ambiental -->
+        <div class="ambient-lights">
+            <div class="light-orb light-1"></div>
+            <div class="light-orb light-2"></div>
+            <div class="light-orb light-3"></div>
         </div>
 
         <!-- Header con info del jugador -->
@@ -223,12 +232,51 @@
             </div>
         </div>
 
-        <!-- Mesa central animada -->
+        <!-- Estadísticas del jugador -->
+        <div class="player-stats">
+            <div class="stat-card">
+                <div class="stat-icon">🎮</div>
+                <div class="stat-info">
+                    <span class="stat-number" id="gamesPlayedStat">0</span>
+                    <span class="stat-label">Partidas</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏆</div>
+                <div class="stat-info">
+                    <span class="stat-number" id="gamesWonStat">0</span>
+                    <span class="stat-label">Victorias</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-info">
+                    <span class="stat-number" id="winRateStat">0%</span>
+                    <span class="stat-label">% Victoria</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mesa central animada con elementos decorativos -->
         <div class="center-table">
+            <!-- Elementos decorativos -->
+            <div class="decorative-elements">
+                <div class="floating-ball ball-1">🏓</div>
+                <div class="floating-ball ball-2">⚪</div>
+                <div class="floating-paddle paddle-1">🏓</div>
+            </div>
+            
             <div class="ping-pong-table-3d">
                 <div class="table-top"></div>
                 <div class="table-net"></div>
                 <div class="table-shadow"></div>
+            </div>
+            
+            <!-- Círculos de energía -->
+            <div class="energy-rings">
+                <div class="energy-ring ring-1"></div>
+                <div class="energy-ring ring-2"></div>
+                <div class="energy-ring ring-3"></div>
             </div>
         </div>
 
@@ -238,9 +286,9 @@
                 <span class="btn-icon">🎮</span>
                 <span class="btn-text">JUGAR</span>
             </button>
-            <button class="action-btn customize-btn" onclick="showCustomization()">
-                <span class="btn-icon">🎨</span>
-                <span class="btn-text">PERSONALIZAR</span>
+            <button class="action-btn customize-btn" onclick="openBlueShop()">
+                <span class="btn-icon">🏓</span>
+                <span class="btn-text">TIENDA</span>
             </button>
             <button class="action-btn options-btn" onclick="showOptions()">
                 <span class="btn-icon">⚙️</span>
@@ -273,15 +321,7 @@
             </div>
         </div>
 
-        <!-- Paleta de tienda estática (lado izquierdo) -->
-        <div class="shop-paddle-static" onclick="openBlueShop()">
-            <div class="paddle-grip"></div>
-            <div class="paddle-blade">
-                <div class="paddle-surface-red"></div>
-                <div class="paddle-surface-black"></div>
-                <div class="paddle-logo">TIENDA</div>
-            </div>
-        </div>
+
     </div>
 
     <!-- INTERFAZ DE JUEGO AZUL -->
@@ -299,7 +339,7 @@
                     </div>
                 </div>
                 <div class="set-info">
-                    <span id="currentSet">Set 1 (Tú: 0 - 0 Oponente)</span>
+                    <span id="currentSet">Juego a 11 puntos (Tú: 0 - 0 Oponente)</span>
                 </div>
                 <div class="opponent-score">
                     <span class="score-label">OPONENTE</span>
@@ -369,9 +409,11 @@
         <!-- Panel de pausa -->
         <div class="pause-overlay" id="pauseOverlay" style="display: none;">
             <div class="pause-panel">
-                <h2>JUEGO PAUSADO</h2>
-                <button class="resume-btn" onclick="resumeGame()">Continuar</button>
-                <button class="quit-btn" onclick="quitGame()">Salir al Menú</button>
+                <h2>⏸️ JUEGO EN PAUSA</h2>
+                <div class="pause-buttons">
+                    <button class="abandon-btn" onclick="abandonGame()">Abandonar el juego</button>
+                    <button class="continue-btn" onclick="continueGame()">Continuar el juego</button>
+                </div>
             </div>
         </div>
 
@@ -411,7 +453,7 @@
                 Paletas
             </button>
             <button class="category-btn" onclick="showCategory('mesas')">
-                <span class="category-icon">🏓</span>
+                <span class="category-icon-table"></span>
                 Mesas
             </button>
         </div>
@@ -419,34 +461,6 @@
         <div class="shop-items-grid" id="shopItemsGrid">
             <!-- Items se generan dinámicamente -->
         </div>
-    </div>
-    </div>
-    <div class="shop-header">
-        <button class="back-btn" onclick="closeBlueShop()">← Volver</button>
-        <h1>🛒 TIENDA DE PING PONG</h1>
-        <div class="shop-coins">
-            <span class="coin-icon">🪙</span>
-            <span id="shopCoinsDisplay">50</span>
-        </div>
-    </div>
-
-    <div class="shop-categories">
-        <button class="category-btn active" onclick="showCategory('pelotas')">
-            <span class="category-icon">⚪</span>
-            Pelotas
-        </button>
-        <button class="category-btn" onclick="showCategory('paletas')">
-            <span class="category-icon">🏓</span>
-            Paletas
-        </button>
-        <button class="category-btn" onclick="showCategory('mesas')">
-            <span class="category-icon">🏓</span>
-            Mesas
-        </button>
-    </div>
-
-    <div class="shop-items-grid" id="shopItemsGrid">
-        <!-- Items se generan dinámicamente -->
     </div>
     </div>
 

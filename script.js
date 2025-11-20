@@ -144,7 +144,13 @@ let playerData = {
     stars: 0,
     gamesPlayed: 0,
     gamesWon: 0,
-    totalScore: 0
+    totalScore: 0,
+    ownedBalls: [1], // IDs de pelotas compradas (empieza con pelota clásica)
+    selectedBall: 1,   // ID de la pelota actualmente seleccionada
+    ownedPaddles: [11], // IDs de paletas compradas (empieza con paleta clásica)
+    selectedPaddle: 11,  // ID de la paleta actualmente seleccionada
+    ownedTables: [21], // IDs de mesas compradas (empieza con mesa clásica)
+    selectedTable: 21  // ID de la mesa actualmente seleccionada
 };
 
 // Sistema de experiencia y niveles
@@ -199,8 +205,33 @@ function updatePlayerDisplay() {
     document.getElementById('starsDisplay').textContent = playerData.stars;
     document.getElementById('shopCoinsDisplay').textContent = playerData.coins;
 
+    // Actualizar estadísticas en la página principal
+    updatePlayerStats();
+
     // Actualizar barra de experiencia
     updateExperienceBar();
+}
+
+function updatePlayerStats() {
+    // Actualizar estadísticas si los elementos existen
+    const gamesPlayedElement = document.getElementById('gamesPlayedStat');
+    const gamesWonElement = document.getElementById('gamesWonStat');
+    const winRateElement = document.getElementById('winRateStat');
+
+    if (gamesPlayedElement) {
+        gamesPlayedElement.textContent = playerData.gamesPlayed;
+    }
+
+    if (gamesWonElement) {
+        gamesWonElement.textContent = playerData.gamesWon;
+    }
+
+    if (winRateElement) {
+        const winRate = playerData.gamesPlayed > 0
+            ? Math.round((playerData.gamesWon / playerData.gamesPlayed) * 100)
+            : 0;
+        winRateElement.textContent = winRate + '%';
+    }
 }
 
 function updateExperienceBar() {
@@ -315,6 +346,7 @@ function handleGameLoss() {
 }
 
 function showCustomization() {
+    no
     showNotification('Personalización - Próximamente', '#9b59b6');
 }
 
@@ -408,44 +440,245 @@ function loadShopItems(category) {
 function getShopItemsByCategory(category) {
     const shopData = {
         pelotas: [
-            { id: 1, name: 'Pelota Clásica', price: 0, icon: '⚪', owned: true },
-            { id: 2, name: 'Pelota Neón', price: 50, icon: '🟢', owned: false },
-            { id: 3, name: 'Pelota Fuego', price: 100, icon: '🔴', owned: false },
-            { id: 4, name: 'Pelota Arcoíris', price: 150, icon: '🌈', owned: false },
-            { id: 5, name: 'Pelota Diamante', price: 300, icon: '💎', owned: false }
+            { id: 1, name: 'Pelota Clásica', price: 0, icon: '⚪', color: '#ffffff', cssClass: 'ball-classic' },
+            { id: 2, name: 'Pelota Neón', price: 50, icon: '🟢', color: '#00ff88', cssClass: 'ball-neon' },
+            { id: 3, name: 'Pelota Fuego', price: 100, icon: '🔴', color: '#ff4444', cssClass: 'ball-fire' },
+            { id: 4, name: 'Pelota Arcoíris', price: 150, icon: '🌈', color: 'rainbow', cssClass: 'ball-rainbow' },
+            { id: 5, name: 'Pelota Diamante', price: 300, icon: '💎', color: '#00ccff', cssClass: 'ball-diamond' },
+            { id: 6, name: 'Pelota Dorada', price: 200, icon: '🟡', color: '#ffd700', cssClass: 'ball-gold' },
+            { id: 7, name: 'Pelota Púrpura', price: 120, icon: '🟣', color: '#8a2be2', cssClass: 'ball-purple' },
+            { id: 8, name: 'Pelota Cibernética', price: 250, icon: '🔵', color: '#00ffff', cssClass: 'ball-cyber' },
+            { id: 9, name: 'Pelota Lava', price: 180, icon: '🟠', color: '#ff6600', cssClass: 'ball-lava' },
+            { id: 10, name: 'Pelota Galaxia', price: 400, icon: '🌌', color: 'galaxy', cssClass: 'ball-galaxy' }
         ],
         paletas: [
-            { id: 6, name: 'Paleta Clásica', price: 0, icon: '🏓', owned: true },
-            { id: 7, name: 'Paleta Pro', price: 200, icon: '🏓', owned: false },
-            { id: 8, name: 'Paleta Carbono', price: 400, icon: '🏓', owned: false },
-            { id: 9, name: 'Paleta Titanio', price: 600, icon: '🏓', owned: false }
+            { id: 11, name: 'Paleta Clásica', price: 0, icon: '🏓', color: null, cssClass: 'paddle-classic' },
+            { id: 12, name: 'Paleta Pro', price: 200, icon: '🏓', color: '#4ecdc4', cssClass: 'paddle-pro' },
+            { id: 13, name: 'Paleta Carbono', price: 400, icon: '🏓', color: '#2c2c2c', cssClass: 'paddle-carbon' },
+            { id: 14, name: 'Paleta Titanio', price: 600, icon: '🏓', color: '#c0c0c0', cssClass: 'paddle-titanium' },
+            { id: 15, name: 'Paleta Neón', price: 250, icon: '🏓', color: '#00ff88', cssClass: 'paddle-neon' },
+            { id: 16, name: 'Paleta Fuego', price: 300, icon: '🏓', color: '#ff4444', cssClass: 'paddle-fire' },
+            { id: 17, name: 'Paleta Dorada', price: 350, icon: '🏓', color: '#ffd700', cssClass: 'paddle-gold' },
+            { id: 18, name: 'Paleta Arcoíris', price: 450, icon: '🏓', color: 'rainbow', cssClass: 'paddle-rainbow' },
+            { id: 19, name: 'Paleta Diamante', price: 500, icon: '🏓', color: '#00ccff', cssClass: 'paddle-diamond' },
+            { id: 20, name: 'Paleta Galaxia', price: 700, icon: '🏓', color: 'galaxy', cssClass: 'paddle-galaxy' }
         ],
         mesas: [
-            { id: 10, name: 'Mesa Clásica', price: 0, icon: '🏓', owned: true },
-            { id: 11, name: 'Mesa Futurista', price: 500, icon: '🛸', owned: false },
-            { id: 12, name: 'Mesa Cristal', price: 800, icon: '💠', owned: false },
-            { id: 13, name: 'Mesa Holográfica', price: 1200, icon: '🔮', owned: false }
+            { id: 21, name: 'Mesa Clásica', price: 0, icon: 'table-icon-classic', color: '#008f39', cssClass: 'table-classic' },
+            { id: 22, name: 'Mesa Rosada', price: 300, icon: 'table-icon-pink', color: '#ff69b4', cssClass: 'table-pink' },
+            { id: 23, name: 'Mesa Naranja', price: 400, icon: 'table-icon-orange', color: '#ff8c00', cssClass: 'table-orange' },
+            { id: 24, name: 'Mesa de Fuego', price: 600, icon: 'table-icon-fire', color: '#ff4400', cssClass: 'table-fire' },
+            { id: 25, name: 'Mesa Marrón', price: 350, icon: 'table-icon-brown', color: '#8b4513', cssClass: 'table-brown' },
+            { id: 26, name: 'Mesa Azul', price: 450, icon: 'table-icon-blue', color: '#1e90ff', cssClass: 'table-blue' },
+            { id: 27, name: 'Mesa Púrpura', price: 500, icon: 'table-icon-purple', color: '#8a2be2', cssClass: 'table-purple' },
+            { id: 28, name: 'Mesa Dorada', price: 700, icon: '�', color: 'rainbow', cssClass: 'table-rainbow' },
+            { id: 29, name: 'Mesa Neón', price: 800, icon: '�', color: '#00ff88', cssClass: 'table-neon' },
+            { id: 30, name: 'Mesa Arcoíris', price: 1000, icon: 'table-icon-rainbow', color: 'rainbow', cssClass: 'table-rainbow' }
         ]
     };
 
-    return shopData[category] || [];
+    const items = shopData[category] || [];
+
+    // Marcar items como comprados según el inventario del jugador
+    if (category === 'pelotas') {
+        items.forEach(item => {
+            item.owned = playerData.ownedBalls.includes(item.id);
+            item.selected = playerData.selectedBall === item.id;
+        });
+    } else if (category === 'paletas') {
+        items.forEach(item => {
+            item.owned = playerData.ownedPaddles.includes(item.id);
+            item.selected = playerData.selectedPaddle === item.id;
+        });
+    } else if (category === 'mesas') {
+        items.forEach(item => {
+            item.owned = playerData.ownedTables.includes(item.id);
+            item.selected = playerData.selectedTable === item.id;
+        });
+    }
+
+    return items;
 }
 
 function createShopItemElement(item) {
     const itemDiv = document.createElement('div');
     itemDiv.className = 'shop-item-card';
+
+    let buttonHtml = '';
+
+    if (item.hasOwnProperty('color')) { // Es una pelota o paleta personalizable
+        if (item.selected) {
+            buttonHtml = `<button class="selected-btn" disabled>✓ EQUIPADA</button>`;
+        } else if (item.owned) {
+            // Determinar si es pelota, paleta o mesa por el ID
+            if (item.id <= 10) {
+                buttonHtml = `<button class="equip-btn" onclick="equipBall(${item.id}, '${item.name}')">EQUIPAR</button>`;
+            } else if (item.id <= 20) {
+                buttonHtml = `<button class="equip-btn" onclick="equipPaddle(${item.id}, '${item.name}')">EQUIPAR</button>`;
+            } else {
+                buttonHtml = `<button class="equip-btn" onclick="equipTable(${item.id}, '${item.name}')">EQUIPAR</button>`;
+            }
+        } else {
+            // Determinar si es pelota, paleta o mesa por el ID
+            if (item.id <= 10) {
+                buttonHtml = `<button class="purchase-btn" onclick="purchaseBall(${item.id}, '${item.name}', ${item.price})">COMPRAR</button>`;
+            } else if (item.id <= 20) {
+                buttonHtml = `<button class="purchase-btn" onclick="purchasePaddle(${item.id}, '${item.name}', ${item.price})">COMPRAR</button>`;
+            } else {
+                buttonHtml = `<button class="purchase-btn" onclick="purchaseTable(${item.id}, '${item.name}', ${item.price})">COMPRAR</button>`;
+            }
+        }
+    } else { // Otros items sin personalización
+        if (item.owned) {
+            buttonHtml = `<button class="purchase-btn owned" disabled>COMPRADO</button>`;
+        } else {
+            buttonHtml = `<button class="purchase-btn" onclick="purchaseItem(${item.id}, '${item.name}', ${item.price})">COMPRAR</button>`;
+        }
+    }
+
     itemDiv.innerHTML = `
-        <div class="item-icon-large">${item.icon}</div>
+        <div class="item-icon-large ${item.icon.startsWith('table-icon') ? item.icon : ''}">${item.icon.startsWith('table-icon') ? '' : item.icon}</div>
         <h3 class="item-name">${item.name}</h3>
         <div class="item-price">${item.price === 0 ? 'GRATIS' : item.price + ' 🪙'}</div>
-        <button class="purchase-btn ${item.owned ? 'owned' : ''}" 
-                onclick="purchaseItem(${item.id}, '${item.name}', ${item.price})"
-                ${item.owned ? 'disabled' : ''}>
-            ${item.owned ? 'COMPRADO' : 'COMPRAR'}
-        </button>
+        ${buttonHtml}
     `;
 
     return itemDiv;
+}
+
+function purchaseBall(ballId, ballName, price) {
+    if (price === 0) {
+        // Pelota gratuita, agregar al inventario
+        if (!playerData.ownedBalls.includes(ballId)) {
+            playerData.ownedBalls.push(ballId);
+        }
+        showNotification('¡Pelota gratuita obtenida!', '#00ff88');
+    } else {
+        // Verificar si tiene suficientes monedas
+        if (playerData.coins < price) {
+            showNotification('¡No tienes suficientes monedas!', '#e74c3c');
+            return;
+        }
+
+        // Realizar compra
+        playerData.coins -= price;
+        playerData.ownedBalls.push(ballId);
+
+        showNotification(`¡${ballName} comprada por ${price} monedas!`, '#3498db');
+    }
+
+    // Guardar datos y actualizar displays
+    savePlayerData();
+    updatePlayerDisplay();
+    updateShopCurrency();
+
+    // Recargar items de la tienda para actualizar botones
+    loadShopItems('pelotas');
+}
+
+function equipBall(ballId, ballName) {
+    playerData.selectedBall = ballId;
+    savePlayerData();
+
+    showNotification(`¡${ballName} equipada!`, '#27ae60');
+
+    // Recargar items para actualizar botones
+    loadShopItems('pelotas');
+
+    // Aplicar el cambio visual en el juego si está activo
+    if (gameState.isPlaying) {
+        applyBallStyle();
+    }
+}
+
+function purchasePaddle(paddleId, paddleName, price) {
+    if (price === 0) {
+        // Paleta gratuita, agregar al inventario
+        if (!playerData.ownedPaddles.includes(paddleId)) {
+            playerData.ownedPaddles.push(paddleId);
+        }
+        showNotification('¡Paleta gratuita obtenida!', '#00ff88');
+    } else {
+        // Verificar si tiene suficientes monedas
+        if (playerData.coins < price) {
+            showNotification('¡No tienes suficientes monedas!', '#e74c3c');
+            return;
+        }
+
+        // Realizar compra
+        playerData.coins -= price;
+        playerData.ownedPaddles.push(paddleId);
+
+        showNotification(`¡${paddleName} comprada por ${price} monedas!`, '#3498db');
+    }
+
+    // Guardar datos y actualizar displays
+    savePlayerData();
+    updatePlayerDisplay();
+    updateShopCurrency();
+
+    // Recargar items de la tienda para actualizar botones
+    loadShopItems('paletas');
+}
+
+function equipPaddle(paddleId, paddleName) {
+    playerData.selectedPaddle = paddleId;
+    savePlayerData();
+
+    showNotification(`¡${paddleName} equipada!`, '#27ae60');
+
+    // Recargar items para actualizar botones
+    loadShopItems('paletas');
+
+    // Aplicar el cambio visual en el juego si está activo
+    if (gameState.isPlaying) {
+        applyPaddleStyle();
+    }
+}
+
+function purchaseTable(tableId, tableName, price) {
+    if (price === 0) {
+        // Mesa gratuita, agregar al inventario
+        if (!playerData.ownedTables.includes(tableId)) {
+            playerData.ownedTables.push(tableId);
+        }
+        showNotification('¡Mesa gratuita obtenida!', '#00ff88');
+    } else {
+        // Verificar si tiene suficientes monedas
+        if (playerData.coins < price) {
+            showNotification('¡No tienes suficientes monedas!', '#e74c3c');
+            return;
+        }
+
+        // Realizar compra
+        playerData.coins -= price;
+        playerData.ownedTables.push(tableId);
+
+        showNotification(`¡${tableName} comprada por ${price} monedas!`, '#3498db');
+    }
+
+    // Guardar datos y actualizar displays
+    savePlayerData();
+    updatePlayerDisplay();
+    updateShopCurrency();
+
+    // Recargar items de la tienda para actualizar botones
+    loadShopItems('mesas');
+}
+
+function equipTable(tableId, tableName) {
+    playerData.selectedTable = tableId;
+    savePlayerData();
+
+    showNotification(`¡${tableName} equipada!`, '#27ae60');
+
+    // Recargar items para actualizar botones
+    loadShopItems('mesas');
+
+    // Aplicar el cambio visual en el juego si está activo
+    if (gameState.isPlaying) {
+        applyTableStyle();
+    }
 }
 
 function purchaseItem(itemId, itemName, price) {
@@ -561,8 +794,18 @@ function initializePingPongGame(difficulty) {
     updateGameUI();
     document.getElementById('difficultyDisplay').textContent = difficulty.toUpperCase();
 
+    // Inicializar botón de pausa
+    const pauseBtn = document.querySelector('.pause-btn');
+    if (pauseBtn) {
+        pauseBtn.innerHTML = '⏸️';
+        pauseBtn.title = 'Pausar juego';
+    }
+
     // Configurar controles
     setupGameControls();
+
+    // Aplicar estilo de pelota personalizada
+    initializeBallStyle();
 
     // Mostrar instrucciones de saque
     showServeInstructions();
@@ -577,11 +820,11 @@ function prepareServe() {
     gameState.rallyCount = 0;
 
     if (gameState.serverSide === 'player') {
-        gameState.ballPosition = { x: 50, y: 85 };
-        gameState.playerPaddlePos = { x: 50, y: 90 };
+        gameState.ballPosition = { x: 50, y: 75 };
+        gameState.playerPaddlePos = { x: 50, y: 85 };
     } else {
-        gameState.ballPosition = { x: 50, y: 15 };
-        gameState.opponentPaddlePos = { x: 50, y: 10 };
+        gameState.ballPosition = { x: 50, y: 25 };
+        gameState.opponentPaddlePos = { x: 50, y: 15 };
     }
 
     gameState.ballVelocity = { x: 0, y: 0 };
@@ -634,11 +877,7 @@ function executeTopspinAttack(attackerSide, power = 1.0) {
 }
 
 function showServeInstructions() {
-    const instructions = gameState.serverSide === 'player'
-        ? 'Tu saque - Presiona ESPACIO para sacar'
-        : 'Saque del oponente - Prepárate para defender';
-
-    showNotification(instructions, '#3498db');
+    // No mostrar instrucciones de saque para juego más fluido
 }
 
 function getDifficultySpeed() {
@@ -692,7 +931,7 @@ function handleMouseMove(e) {
 
     // Movimiento directo y ultra responsivo (sin lag)
     const targetX = Math.max(2, Math.min(98, x));
-    const targetY = Math.max(60, Math.min(99, y));
+    const targetY = Math.max(60, Math.min(95, y));
 
     // Movimiento casi instantáneo - más ligero
     gameState.playerPaddlePos.x += (targetX - gameState.playerPaddlePos.x) * 0.95;
@@ -708,7 +947,7 @@ function handleTouchMove(e) {
 
     // Movimiento súper responsivo en móviles
     const targetX = Math.max(2, Math.min(98, x));
-    const targetY = Math.max(60, Math.min(99, y));
+    const targetY = Math.max(60, Math.min(95, y));
 
     // Movimiento directo para mejor control táctil
     gameState.playerPaddlePos.x = targetX;
@@ -738,31 +977,8 @@ function gameLoop(currentTime) {
 }
 
 function updateKeyboardControls() {
-    let speed = 6.5; // Velocidad base más rápida y fluida
-
-    // Velocidad adaptativa según la situación
-    if (gameState.gamePhase === 'rally') {
-        const ballSpeed = Math.sqrt(gameState.ballVelocity.x ** 2 + gameState.ballVelocity.y ** 2);
-        if (ballSpeed > 2.5) {
-            speed = 8.0; // Muy rápido para pelotas rápidas
-        }
-    }
-
-    // Movimiento horizontal (súper fluido)
-    if (keysPressed['ArrowLeft'] || keysPressed['a'] || keysPressed['A']) {
-        gameState.playerPaddlePos.x = Math.max(2, gameState.playerPaddlePos.x - speed);
-    }
-    if (keysPressed['ArrowRight'] || keysPressed['d'] || keysPressed['D']) {
-        gameState.playerPaddlePos.x = Math.min(98, gameState.playerPaddlePos.x + speed);
-    }
-
-    // Movimiento vertical (súper fluido)
-    if (keysPressed['ArrowUp'] || keysPressed['w'] || keysPressed['W']) {
-        gameState.playerPaddlePos.y = Math.max(60, gameState.playerPaddlePos.y - speed);
-    }
-    if (keysPressed['ArrowDown'] || keysPressed['s'] || keysPressed['S']) {
-        gameState.playerPaddlePos.y = Math.min(99, gameState.playerPaddlePos.y + speed);
-    }
+    // Control deshabilitado - solo usar mouse
+    // Las paletas se controlan únicamente con el mouse para mejor precisión
 }
 
 function updateBallPhysics(deltaTime) {
@@ -799,11 +1015,15 @@ function updateBallPhysics(deltaTime) {
     // Colisión con paletas
     checkAdvancedPaddleCollisions();
 
-    // Puntos cuando la pelota sale de la mesa
-    if (gameState.ballPosition.y <= -5) {
-        scorePoint('player');
-    } else if (gameState.ballPosition.y >= 105) {
-        scorePoint('opponent');
+    // Puntos cuando la pelota sale de la mesa (solo una vez por punto)
+    if (gameState.gamePhase === 'rally') {
+        if (gameState.ballPosition.y <= -5) {
+            gameState.gamePhase = 'point'; // Evitar múltiples puntos
+            scorePoint('player');
+        } else if (gameState.ballPosition.y >= 105) {
+            gameState.gamePhase = 'point'; // Evitar múltiples puntos
+            scorePoint('opponent');
+        }
     }
 }
 
@@ -811,16 +1031,16 @@ function checkAdvancedPaddleCollisions() {
     const ballX = gameState.ballPosition.x;
     const ballY = gameState.ballPosition.y;
 
-    // Colisión con paleta del jugador (área MUY generosa)
-    if (ballY >= 75 && ballY <= 99 && gameState.lastHitBy !== 'player') {
+    // Colisión con paleta del jugador (área EXTRA generosa)
+    if (ballY >= 60 && ballY <= 100 && gameState.lastHitBy !== 'player') {
         const paddleX = gameState.playerPaddlePos.x;
         const paddleY = gameState.playerPaddlePos.y;
 
-        // Área de colisión súper generosa
+        // Área de colisión extra generosa para mejor jugabilidad
         const distanceX = Math.abs(ballX - paddleX);
         const distanceY = Math.abs(ballY - paddleY);
 
-        if (distanceX <= 18 && distanceY <= 12) { // Área mucho más grande
+        if (distanceX <= 25 && distanceY <= 20) { // Área mucho más grande para facilitar el juego
             handlePlayerHit(ballX, ballY, paddleX, paddleY);
         }
     }
@@ -1048,9 +1268,7 @@ function updateVisualPositions() {
         }
     }
 
-    // Brillo según velocidad
-    const glowIntensity = Math.min(ballSpeed * 5, 25);
-    ball.style.boxShadow = `0 0 ${glowIntensity}px rgba(255, 255, 255, 0.9), 0 5px 15px rgba(0, 0, 0, 0.3)`;
+    // Efecto de brillo eliminado
 
     // Detectar si pasa por la red
     if (Math.abs(gameState.ballPosition.y - 50) < 2) {
@@ -1061,37 +1279,23 @@ function updateVisualPositions() {
     // Actualizar paleta del jugador con efectos
     const playerPaddle = document.getElementById('playerPaddle');
     playerPaddle.style.left = gameState.playerPaddlePos.x + '%';
-    playerPaddle.style.bottom = (100 - gameState.playerPaddlePos.y) + '%';
+    playerPaddle.style.top = gameState.playerPaddlePos.y + '%';
 
-    // Efecto de movimiento más suave
-    const playerVelX = gameState.playerPaddlePos.x - (gameState.lastPlayerPos?.x || gameState.playerPaddlePos.x);
-    const playerRotation = Math.max(-15, Math.min(15, playerVelX * 3));
-    playerPaddle.style.transform = `translateX(-50%) rotateZ(${playerRotation}deg)`;
+    // Mantener paleta estable sin rotación
+    playerPaddle.style.transform = `translateX(-50%)`;
 
-    // Brillo en la paleta del jugador cuando está cerca de la pelota
-    const distanceToPlayer = Math.sqrt(
-        Math.pow(gameState.ballPosition.x - gameState.playerPaddlePos.x, 2) +
-        Math.pow(gameState.ballPosition.y - gameState.playerPaddlePos.y, 2)
-    );
-
-    if (distanceToPlayer < 20) {
-        playerPaddle.style.filter = 'drop-shadow(0 0 10px rgba(0, 255, 136, 0.8))';
-    } else {
-        playerPaddle.style.filter = 'none';
-    }
+    // Sin efectos de brillo en las paletas
+    playerPaddle.style.filter = 'none';
 
     // Actualizar paleta del oponente
     const opponentPaddle = document.getElementById('opponentPaddle');
     opponentPaddle.style.left = gameState.opponentPaddlePos.x + '%';
     opponentPaddle.style.top = gameState.opponentPaddlePos.y + '%';
 
-    const opponentVelX = gameState.opponentPaddlePos.x - (gameState.lastOpponentPos?.x || gameState.opponentPaddlePos.x);
-    const opponentRotation = Math.max(-15, Math.min(15, opponentVelX * 3));
-    opponentPaddle.style.transform = `translateX(-50%) rotateZ(${opponentRotation}deg)`;
+    // Mantener paleta del oponente estable sin rotación
+    opponentPaddle.style.transform = `translateX(-50%)`;
 
-    // Guardar posiciones anteriores
-    gameState.lastPlayerPos = { ...gameState.playerPaddlePos };
-    gameState.lastOpponentPos = { ...gameState.opponentPaddlePos };
+    // Posiciones estables sin efectos de rotación
 }
 
 // Crear partículas de la pelota
@@ -1159,10 +1363,22 @@ function scorePoint(scorer) {
         gameState.serverSide = gameState.serverSide === 'player' ? 'opponent' : 'player';
     }
 
-    // Verificar si alguien ganó el set (5 puntos)
-    if (gameState.playerScore >= 5 || gameState.opponentScore >= 5) {
-        endSet(scorer);
-        return;
+    // Verificar si alguien ganó el juego (11 puntos con diferencia de 2)
+    if ((gameState.playerScore >= 11 || gameState.opponentScore >= 11) &&
+        Math.abs(gameState.playerScore - gameState.opponentScore) >= 2) {
+        // Solo terminar si el que acaba de anotar es quien tiene 11+ puntos
+        if ((scorer === 'player' && gameState.playerScore >= 11) ||
+            (scorer === 'opponent' && gameState.opponentScore >= 11)) {
+            endSet(scorer);
+            return;
+        }
+    }
+
+    // Mostrar deuce si están 10-10 o más
+    if (gameState.playerScore >= 10 && gameState.opponentScore >= 10) {
+        if (Math.abs(gameState.playerScore - gameState.opponentScore) < 2) {
+            showNotification('¡DEUCE! - Necesitas 2 puntos de ventaja', '#f39c12');
+        }
     }
 
     // Preparar siguiente saque
@@ -1193,33 +1409,8 @@ function animateBallToCenter() {
 }
 
 function endSet(winner) {
-    if (winner === 'player') {
-        gameState.playerSets++;
-        showNotification(`¡Ganaste el Set ${gameState.currentSet}!`, '#27ae60');
-    } else {
-        gameState.opponentSets++;
-        showNotification(`Perdiste el Set ${gameState.currentSet}`, '#e74c3c');
-    }
-
-    gameState.playerScore = 0;
-    gameState.opponentScore = 0;
-    gameState.currentSet++;
-
-    updateGameUI();
-
-    // Verificar si alguien ganó el match (2 sets)
-    if (gameState.playerSets >= 2 || gameState.opponentSets >= 2) {
-        setTimeout(() => {
-            endGame(gameState.playerSets > gameState.opponentSets ? 'player' : 'opponent');
-        }, 1500);
-        return;
-    }
-
-    // Continuar con el siguiente set
-    setTimeout(() => {
-        prepareServe();
-        showServeInstructions();
-    }, 2500);
+    // Ahora endSet es realmente endGame (termina el juego completo)
+    endGame(winner);
 }
 
 function endGame(winner) {
@@ -1270,7 +1461,7 @@ function endGame(winner) {
         savePlayerData();
     }
 
-    finalScore.textContent = `Sets: ${gameState.playerSets} - ${gameState.opponentSets}`;
+    finalScore.textContent = `Puntuación Final: ${gameState.playerScore} - ${gameState.opponentScore}`;
     resultOverlay.style.display = 'flex';
 
     // Animación de entrada del modal
@@ -1285,26 +1476,111 @@ function updateGameUI() {
     document.getElementById('playerSets').textContent = gameState.playerSets;
     document.getElementById('opponentSets').textContent = gameState.opponentSets;
 
-    // Mostrar información del set actual
+    // Mostrar información del juego actual
     const setInfo = document.getElementById('currentSet');
-    setInfo.textContent = `Set ${gameState.currentSet} (Tú: ${gameState.playerScore} - ${gameState.opponentScore} Oponente)`;
+    setInfo.textContent = `Juego a 11 puntos (Tú: ${gameState.playerScore} - ${gameState.opponentScore} Oponente)`;
 }
 
 // Funciones de control del juego
 function pauseGame() {
-    if (gameState.isPlaying && !gameState.isPaused) {
+    console.log('pauseGame llamada, isPlaying:', gameState.isPlaying, 'isPaused:', gameState.isPaused);
+
+    if (!gameState.isPlaying) return;
+
+    if (gameState.isPaused) {
+        // Reanudar juego
+        console.log('Reanudando juego...');
+        gameState.isPaused = false;
+
+        const pauseOverlay = document.getElementById('pauseOverlay');
+        if (pauseOverlay) {
+            pauseOverlay.style.display = 'none';
+            console.log('Overlay ocultado');
+        } else {
+            console.log('ERROR: No se encontró pauseOverlay');
+        }
+
+        gameState.lastTime = performance.now();
+        gameState.gameLoop = requestAnimationFrame(gameLoop);
+        console.log('Loop reiniciado');
+
+        // Cambiar icono del botón a pausa
+        const pauseBtn = document.querySelector('.pause-btn');
+        if (pauseBtn) {
+            pauseBtn.innerHTML = '⏸️';
+            pauseBtn.title = 'Pausar juego';
+            console.log('Botón cambiado a pausa');
+        }
+    } else {
+        // Pausar juego
+        console.log('Pausando juego...');
         gameState.isPaused = true;
-        document.getElementById('pauseOverlay').style.display = 'flex';
+
+        const pauseOverlay = document.getElementById('pauseOverlay');
+        if (pauseOverlay) {
+            pauseOverlay.style.display = 'flex';
+            console.log('Overlay mostrado');
+        } else {
+            console.log('ERROR: No se encontró pauseOverlay');
+        }
+
+        // Cambiar icono del botón a play
+        const pauseBtn = document.querySelector('.pause-btn');
+        if (pauseBtn) {
+            pauseBtn.innerHTML = '▶️';
+            pauseBtn.title = 'Reanudar juego';
+            console.log('Botón cambiado a play');
+        }
     }
 }
 
-function resumeGame() {
+function continueGame() {
+    console.log('Continuando juego desde overlay...');
     if (gameState.isPlaying && gameState.isPaused) {
         gameState.isPaused = false;
         document.getElementById('pauseOverlay').style.display = 'none';
         gameState.lastTime = performance.now();
         gameState.gameLoop = requestAnimationFrame(gameLoop);
+
+        // Cambiar icono del botón de pausa de vuelta a pausa
+        const pauseBtn = document.querySelector('.pause-btn');
+        if (pauseBtn) {
+            pauseBtn.innerHTML = '⏸️';
+            pauseBtn.title = 'Pausar juego';
+        }
+
+        console.log('Juego reanudado');
     }
+}
+
+function abandonGame() {
+    console.log('Abandonando juego...');
+    // Detener el juego completamente
+    gameState.isPlaying = false;
+    gameState.isPaused = false;
+
+    if (gameState.gameLoop) {
+        cancelAnimationFrame(gameState.gameLoop);
+    }
+
+    // Limpiar event listeners
+    document.removeEventListener('keydown', handleKeyDown);
+    document.removeEventListener('keyup', handleKeyUp);
+
+    // Ocultar todas las pantallas del juego
+    document.getElementById('gameInterface').style.display = 'none';
+    document.getElementById('pauseOverlay').style.display = 'none';
+    document.getElementById('resultOverlay').style.display = 'none';
+
+    // Mostrar interfaz principal (entrada principal)
+    document.getElementById('mainInterface').style.display = 'flex';
+
+    console.log('Regresado a la entrada principal');
+}
+
+function resumeGame() {
+    // Mantener función original para compatibilidad
+    continueGame();
 }
 
 function quitGame() {
@@ -1369,3 +1645,110 @@ document.addEventListener('keydown', (e) => {
         location.reload();
     }
 });
+
+// ===== SISTEMA DE PERSONALIZACIÓN DE PELOTAS =====
+function applyBallStyle() {
+    const ball = document.getElementById('gameBall');
+    if (!ball) return;
+
+    // Obtener datos de la pelota seleccionada
+    const selectedBallData = getShopItemsByCategory('pelotas').find(item => item.id === playerData.selectedBall);
+    if (!selectedBallData) return;
+
+    // Limpiar clases anteriores
+    ball.className = 'ball';
+
+    // Aplicar nueva clase CSS
+    ball.classList.add(selectedBallData.cssClass);
+
+    // Aplicar color directo si no es un efecto especial
+    if (selectedBallData.color && selectedBallData.color !== 'rainbow' && selectedBallData.color !== 'galaxy') {
+        ball.style.backgroundColor = selectedBallData.color;
+    }
+}
+
+function applyPaddleStyle() {
+    const playerPaddle = document.getElementById('playerPaddle');
+    const opponentPaddle = document.getElementById('opponentPaddle');
+
+    if (!playerPaddle || !opponentPaddle) return;
+
+    // Obtener datos de la paleta seleccionada
+    const selectedPaddleData = getShopItemsByCategory('paletas').find(item => item.id === playerData.selectedPaddle);
+    if (!selectedPaddleData) return;
+
+    // Limpiar clases anteriores
+    playerPaddle.className = 'paddle player-paddle';
+    opponentPaddle.className = 'paddle opponent-paddle';
+
+    // Aplicar nueva clase CSS
+    playerPaddle.classList.add(selectedPaddleData.cssClass);
+    opponentPaddle.classList.add(selectedPaddleData.cssClass);
+
+    // Aplicar color directo si no es un efecto especial
+    if (selectedPaddleData.color && selectedPaddleData.color !== 'rainbow' && selectedPaddleData.color !== 'galaxy') {
+        playerPaddle.style.backgroundColor = selectedPaddleData.color;
+        opponentPaddle.style.backgroundColor = selectedPaddleData.color;
+    }
+}
+
+function applyTableStyle() {
+    const gameTable = document.getElementById('gameTable');
+    const tableContainer = document.getElementById('gameTableContainer');
+
+    if (!gameTable) return;
+
+    // Obtener datos de la mesa seleccionada
+    const selectedTableData = getShopItemsByCategory('mesas').find(item => item.id === playerData.selectedTable);
+    if (!selectedTableData) return;
+
+    // Limpiar clases anteriores
+    gameTable.className = 'table';
+    if (tableContainer) {
+        tableContainer.className = 'table-container';
+    }
+
+    // Aplicar nueva clase CSS
+    gameTable.classList.add(selectedTableData.cssClass);
+    if (tableContainer) {
+        tableContainer.classList.add(selectedTableData.cssClass + '-container');
+    }
+
+    // Forzar color verde estándar para la mesa clásica
+    const tableSurface = document.querySelector('.table-surface-game');
+    if (selectedTableData.id === 21 && tableSurface) {
+        tableSurface.style.backgroundColor = '#008f39';
+        gameTable.style.backgroundColor = '#008f39';
+    } else if (selectedTableData.color &&
+        selectedTableData.color !== 'rainbow' &&
+        selectedTableData.color !== 'galaxy' &&
+        selectedTableData.color !== 'hologram') {
+        if (tableSurface) {
+            tableSurface.style.backgroundColor = selectedTableData.color;
+        }
+        gameTable.style.backgroundColor = selectedTableData.color;
+    }
+}
+
+function initializeBallStyle() {
+    // Aplicar estilo de pelota al iniciar el juego
+    setTimeout(() => {
+        applyBallStyle();
+        applyPaddleStyle();
+        applyTableStyle();
+    }, 100);
+}
+
+// FORZAR MESA VERDE - FUNCIÓN SIMPLE
+function forceGreenTable() {
+    const tableSurface = document.querySelector('.table-surface-game');
+    if (tableSurface) {
+        tableSurface.style.setProperty('background-color', '#008f39', 'important');
+    }
+}
+
+// Ejecutar cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', forceGreenTable);
+
+// Ejecutar después de que se apliquen los estilos de la mesa
+setTimeout(forceGreenTable, 2000);

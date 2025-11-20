@@ -367,7 +367,7 @@ MENÚ PRINCIPAL ===== */
     }
     50% { 
         transform: rotateY(180deg) translateY(0px) rotateX(5deg); 
-        filter: drop-shadow(0 10px 20px rgba(255, 107, 107, 0.3));
+        filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
     }
     75% { 
         transform: rotateY(270deg) translateY(-15px) rotateX(10deg); 
@@ -668,7 +668,7 @@ MENÚ PRINCIPAL ===== */
 
 .start-game-btn:hover {
     transform: scale(1.05);
-    box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
 /* ===== PANEL DE TIENDA ===== */
@@ -873,7 +873,6 @@ MENÚ PRINCIPAL ===== */
     align-items: center;
     justify-content: center;
     box-shadow: 
-        0 0 15px rgba(255, 107, 107, 0.6),
         inset 0 0 20px rgba(255, 255, 255, 0.2);
     border: 3px solid #fff;
     position: relative;
@@ -960,10 +959,24 @@ MENÚ PRINCIPAL ===== */
     left: 0;
     width: 100%;
     height: 100vh;
-    background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(0, 150, 255, 0.05) 0%, transparent 70%),
+        linear-gradient(135deg, #0a1428, #1a2744, #2a3f5f);
     display: none;
     flex-direction: column;
     overflow: hidden;
+    animation: backgroundPulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes backgroundPulse {
+    0% { 
+        filter: hue-rotate(0deg) brightness(1);
+    }
+    100% { 
+        filter: hue-rotate(10deg) brightness(1.1);
+    }
 }
 
 .dynamic-background {
@@ -1010,9 +1023,30 @@ MENÚ PRINCIPAL ===== */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2rem;
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
+    width: 100%;
+    padding: 1.5rem 2rem;
+    background: rgba(0, 20, 40, 0.8);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 10;
+}
+
+.interface-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00ffff, transparent);
+    animation: headerGlow 3s ease-in-out infinite;
+}
+
+@keyframes headerGlow {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
 }
 
 .player-info {
@@ -1066,25 +1100,112 @@ MENÚ PRINCIPAL ===== */
     display: flex;
     justify-content: center;
     align-items: center;
-    perspective: 1000px;
+    perspective: 1200px;
+    position: relative;
+}
+
+.center-table::before {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 450px;
+    height: 30px;
+    background: 
+        radial-gradient(ellipse, rgba(0, 255, 255, 0.8) 0%, rgba(0, 255, 255, 0.4) 30%, transparent 70%),
+        radial-gradient(ellipse 80% 100% at 50% 50%, rgba(0, 255, 255, 0.3) 0%, transparent 50%);
+    border-radius: 50%;
+    box-shadow: 
+        0 0 30px rgba(0, 255, 255, 0.6),
+        inset 0 0 20px rgba(0, 255, 255, 0.4);
+    animation: hologramBase 2s ease-in-out infinite alternate;
+}
+
+.center-table::after {
+    content: '';
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 350px;
+    height: 8px;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.9), transparent);
+    border-radius: 50%;
+    animation: hologramScan 3s linear infinite;
+}
+
+@keyframes hologramScan {
+    0% { 
+        width: 350px;
+        opacity: 0.9;
+    }
+    50% { 
+        width: 450px;
+        opacity: 0.6;
+    }
+    100% { 
+        width: 350px;
+        opacity: 0.9;
+    }
+}
+
+@keyframes hologramBase {
+    0% { 
+        width: 400px;
+        opacity: 0.3;
+    }
+    100% { 
+        width: 450px;
+        opacity: 0.6;
+    }
 }
 
 .ping-pong-table-3d {
-    width: 300px;
-    height: 150px;
+    width: 350px;
+    height: 180px;
     position: relative;
     transform-style: preserve-3d;
-    animation: tableRotate 8s linear infinite;
+    transform: rotateX(15deg) rotateY(5deg);
+    animation: tableFloat 4s ease-in-out infinite alternate;
+}
+
+@keyframes tableFloat {
+    0% { 
+        transform: rotateX(15deg) rotateY(5deg) translateY(0px);
+    }
+    100% { 
+        transform: rotateX(15deg) rotateY(-5deg) translateY(-10px);
+    }
 }
 
 .table-top {
     width: 100%;
     height: 100%;
-    background: linear-gradient(45deg, #27ae60, #2ecc71);
-    border: 4px solid white;
-    border-radius: 10px;
-    box-shadow: 0 0 30px rgba(46, 204, 113, 0.6);
+    background: 
+        linear-gradient(45deg, rgba(0, 255, 136, 0.1) 0%, transparent 50%),
+        linear-gradient(-45deg, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #1a4d3a, #2d7a5f, #1a4d3a);
+    border: 3px solid rgba(0, 255, 255, 0.8);
+    border-radius: 12px;
+    box-shadow: 
+        0 0 40px rgba(0, 255, 136, 0.4),
+        inset 0 0 20px rgba(0, 255, 255, 0.1);
     position: relative;
+    animation: tableGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes tableGlow {
+    0% { 
+        box-shadow: 
+            0 0 40px rgba(0, 255, 136, 0.4),
+            inset 0 0 20px rgba(0, 255, 255, 0.1);
+    }
+    100% { 
+        box-shadow: 
+            0 0 60px rgba(0, 255, 136, 0.7),
+            inset 0 0 30px rgba(0, 255, 255, 0.2);
+    }
 }
 
 .table-net {
@@ -1116,37 +1237,75 @@ MENÚ PRINCIPAL ===== */
 .main-action-buttons {
     display: flex;
     justify-content: center;
-    gap: 2rem;
+    gap: 1.5rem;
     padding: 2rem;
+    position: relative;
+    z-index: 5;
 }
 
 .action-btn {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
-    padding: 1.5rem 2rem;
-    background: linear-gradient(45deg, #e74c3c, #c0392b);
+    gap: 0.8rem;
+    padding: 1.8rem 2.5rem;
+    background: 
+        linear-gradient(145deg, rgba(220, 53, 69, 0.9), rgba(185, 28, 28, 0.9)),
+        rgba(0, 0, 0, 0.2);
     color: white;
-    border: none;
-    border-radius: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: bold;
-    box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+    transition: all 0.4s ease;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+.action-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.action-btn:hover::before {
+    left: 100%;
 }
 
 .action-btn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(231, 76, 60, 0.6);
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 
+        0 15px 40px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.4);
 }
 
 .btn-icon {
-    font-size: 2rem;
+    font-size: 2.5rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    animation: iconPulse 2s ease-in-out infinite;
+}
+
+@keyframes iconPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
 }
 
 .btn-text {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 /* ===== PALETA DE TIENDA ESTÁTICA ===== */
@@ -1207,7 +1366,7 @@ MENÚ PRINCIPAL ===== */
     left: 0;
     width: 100%;
     height: 50%;
-    background: linear-gradient(45deg, #e74c3c, #c0392b);
+    background: transparent;
     border-radius: 100px 100px 0 0;
 }
 
@@ -1724,50 +1883,22 @@ TERFAZ DE JUEGO AZUL ===== */
     transform: rotateX(55deg) rotateY(0deg) translateZ(-20px);
     transform-style: preserve-3d;
     filter: drop-shadow(0 40px 80px rgba(0, 0, 0, 0.7));
+    background: #008f39 !important;
 }
 
 /* Superficie principal de la mesa - Verde clásica */
 .table-surface-game {
     width: 100%;
     height: 100%;
-    background: 
-        /* Línea central blanca */
-        linear-gradient(90deg, 
-            transparent calc(50% - 2px),
-            rgba(255, 255, 255, 0.95) calc(50% - 2px),
-            rgba(255, 255, 255, 1) 50%,
-            rgba(255, 255, 255, 0.95) calc(50% + 2px),
-            transparent calc(50% + 2px)),
-        /* Líneas de borde blancas */
-        linear-gradient(0deg, 
-            transparent 0%, transparent 2%, 
-            rgba(255, 255, 255, 0.9) 2%, rgba(255, 255, 255, 0.9) 4%, 
-            transparent 4%, transparent 96%,
-            rgba(255, 255, 255, 0.9) 96%, rgba(255, 255, 255, 0.9) 98%,
-            transparent 98%, transparent 100%),
-        linear-gradient(90deg, 
-            transparent 0%, transparent 2%, 
-            rgba(255, 255, 255, 0.9) 2%, rgba(255, 255, 255, 0.9) 4%, 
-            transparent 4%, transparent 96%,
-            rgba(255, 255, 255, 0.9) 96%, rgba(255, 255, 255, 0.9) 98%,
-            transparent 98%, transparent 100%),
-        /* Brillo superior */
-        radial-gradient(ellipse at 50% 30%, rgba(255, 255, 255, 0.15) 0%, transparent 70%),
-        /* Superficie verde clásica */
-        linear-gradient(180deg, 
-            #2ecc71 0%, 
-            #27ae60 30%,
-            #229954 70%, 
-            #1e8449 100%);
+    background-color: #008f39 !important;
+    background: #008f39 !important;
     border: 6px solid #ffffff;
     border-radius: 4px;
     position: relative;
     transform-style: preserve-3d;
     box-shadow: 
-        0 0 40px rgba(46, 204, 113, 0.6),
-        inset 0 0 80px rgba(0, 0, 0, 0.1),
-        inset 0 -20px 40px rgba(0, 0, 0, 0.2),
-        inset 0 20px 30px rgba(255, 255, 255, 0.1);
+        0 0 20px rgba(0, 143, 57, 0.4),
+        inset 0 2px 4px rgba(255, 255, 255, 0.1);
 }
 
 /* Grosor 3D de la mesa - Gris */
@@ -1802,19 +1933,21 @@ TERFAZ DE JUEGO AZUL ===== */
     top: 50%;
     left: -4%;
     right: -4%;
-    height: 25px;
-    background: rgba(255, 255, 255, 0.9);
-    transform: translateY(-50%) translateZ(15px);
+    height: 30px;
+    background: rgba(255, 255, 255, 0.95) !important;
+    transform: translateY(-50%) translateZ(20px);
     box-shadow: 
-        0 0 10px rgba(0, 0, 0, 0.3),
-        0 8px 15px rgba(0, 0, 0, 0.4);
-    border-radius: 2px;
-    border-top: 2px solid #f0f0f0;
-    border-bottom: 2px solid #d0d0d0;
+        0 0 15px rgba(0, 0, 0, 0.4),
+        0 10px 20px rgba(0, 0, 0, 0.5),
+        inset 0 2px 4px rgba(255, 255, 255, 0.8);
+    border-radius: 3px;
+    border-top: 3px solid #f8f8f8;
+    border-bottom: 3px solid #c0c0c0;
     transform-style: preserve-3d;
+    z-index: 10;
 }
 
-/* Textura de malla blanca */
+/* Textura de malla blanca más visible */
 .table-net-game::before {
     content: '';
     position: absolute;
@@ -1823,21 +1956,23 @@ TERFAZ DE JUEGO AZUL ===== */
     right: 0;
     bottom: 0;
     background: 
+        /* Líneas verticales de la malla */
         repeating-linear-gradient(
             90deg,
-            transparent,
-            transparent 4px,
-            rgba(0, 0, 0, 0.15) 4px,
-            rgba(0, 0, 0, 0.15) 5px
+            transparent 0px,
+            transparent 3px,
+            rgba(0, 0, 0, 0.3) 3px,
+            rgba(0, 0, 0, 0.3) 4px
         ),
+        /* Líneas horizontales de la malla */
         repeating-linear-gradient(
             0deg,
-            transparent,
+            transparent 0px,
             transparent 2px,
-            rgba(0, 0, 0, 0.12) 2px,
-            rgba(0, 0, 0, 0.12) 3px
+            rgba(0, 0, 0, 0.25) 2px,
+            rgba(0, 0, 0, 0.25) 3px
         );
-    border-radius: 1px;
+    border-radius: 2px;
 }
 
 /* Postes laterales negros */
@@ -1898,67 +2033,96 @@ TERFAZ DE JUEGO AZUL ===== */
 .paddle-handle-3d {
     width: 22px;
     height: 45px;
-    background: linear-gradient(90deg, 
-        #8B4513 0%, 
-        #A0522D 20%,
-        #CD853F 40%,
-        #DEB887 50%,
-        #CD853F 60%,
-        #A0522D 80%,
-        #8B4513 100%);
-    border-radius: 0 0 11px 11px;
+    background: 
+        /* Textura de madera profesional */
+        repeating-linear-gradient(90deg, 
+            transparent 0px, transparent 1px,
+            rgba(0, 0, 0, 0.1) 1px, rgba(0, 0, 0, 0.1) 2px),
+        linear-gradient(90deg, 
+            #8B4513 0%, 
+            #A0522D 15%,
+            #CD853F 30%,
+            #DEB887 50%,
+            #CD853F 70%,
+            #A0522D 85%,
+            #8B4513 100%);
+    border-radius: 0 0 12px 12px;
     margin: 0 auto;
     position: relative;
     box-shadow: 
-        0 5px 12px rgba(0, 0, 0, 0.5),
-        inset 4px 0 8px rgba(255, 255, 255, 0.3),
-        inset -4px 0 8px rgba(0, 0, 0, 0.4);
-    border: 3px solid #654321;
+        0 6px 15px rgba(0, 0, 0, 0.6),
+        inset 3px 0 6px rgba(255, 255, 255, 0.4),
+        inset -3px 0 6px rgba(0, 0, 0, 0.5),
+        inset 0 2px 4px rgba(255, 255, 255, 0.2);
+    border: 2px solid #654321;
 }
 
 .paddle-surface-3d {
     width: 70px;
     height: 60px;
-    background: radial-gradient(ellipse at 40% 30%, 
-        #e74c3c 0%, 
-        #c0392b 40%,
-        #a93226 70%,
-        #922b21 100%);
+    background: 
+        /* Textura de goma profesional */
+        radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 70% 75%, rgba(0, 0, 0, 0.1) 0%, transparent 30%),
+        /* Superficie principal negra mate */
+        radial-gradient(ellipse at 40% 30%, 
+            #1a1a1a 0%, 
+            #2c2c2c 40%,
+            #1a1a1a 70%,
+            #0d0d0d 100%);
     border-radius: 50%;
     margin-top: 5px;
     box-shadow: 
-        0 0 20px rgba(231, 76, 60, 0.6),
-        0 8px 15px rgba(0, 0, 0, 0.5),
-        inset 0 -10px 20px rgba(0, 0, 0, 0.4),
-        inset 0 10px 20px rgba(255, 255, 255, 0.2);
-    border: 4px solid #2c3e50;
+        0 6px 12px rgba(0, 0, 0, 0.5),
+        inset 0 2px 4px rgba(255, 255, 255, 0.1),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.3);
+    border: 3px solid #333;
     position: relative;
-    transition: all 0.1s ease;
 }
 
 .paddle-surface-3d::before {
     content: '';
     position: absolute;
-    top: 20%;
-    left: 25%;
-    width: 30%;
-    height: 30%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
+    top: 15%;
+    left: 20%;
+    width: 25%;
+    height: 25%;
+    background: 
+        radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
     border-radius: 50%;
+    filter: blur(1px);
+}
+
+.paddle-surface-3d::after {
+    content: 'PRO';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 8px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.6);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    font-family: 'Arial', sans-serif;
+    letter-spacing: 1px;
 }
 
 .paddle-3d.opponent .paddle-surface-3d {
-    background: radial-gradient(ellipse at 40% 30%, 
-        #3498db 0%, 
-        #2980b9 40%,
-        #1f618d 70%,
-        #1a5490 100%);
+    background: 
+        /* Textura de goma profesional */
+        radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 70% 75%, rgba(0, 0, 0, 0.1) 0%, transparent 30%),
+        /* Superficie principal roja mate */
+        radial-gradient(ellipse at 40% 30%, 
+            #8B0000 0%, 
+            #A52A2A 40%,
+            #8B0000 70%,
+            #660000 100%);
     box-shadow: 
-        0 0 20px rgba(52, 152, 219, 0.6),
-        0 8px 15px rgba(0, 0, 0, 0.5),
-        inset 0 -10px 20px rgba(0, 0, 0, 0.4),
-        inset 0 10px 20px rgba(255, 255, 255, 0.2);
-    border: 4px solid #2c3e50;
+        0 6px 12px rgba(0, 0, 0, 0.5),
+        inset 0 2px 4px rgba(255, 255, 255, 0.1),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.3);
+    border: 3px solid #660000;
 }
 
 /* ===== PELOTA AZUL 3D ===== */
@@ -2062,7 +2226,8 @@ TERFAZ DE JUEGO AZUL ===== */
     transition: opacity 0.3s ease;
 }
 
-.result-overlay.show-modal {
+.result-overlay.show-modal,
+.pause-overlay[style*="flex"] {
     opacity: 1;
 }
 
@@ -2156,7 +2321,7 @@ TERFAZ DE JUEGO AZUL ===== */
 
 .quit-btn:hover, .menu-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
 }
 
 /* Responsive para juego */
@@ -2269,18 +2434,15 @@ TERFAZ DE JUEGO AZUL ===== */
     }
 }
 
-/* Mejora visual de las paletas con sombra dinámica */
+/* Paletas sin efectos visuales molestos */
 .player-paddle {
-    filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.4));
-    transition: filter 0.2s ease;
+    filter: none;
 }
 
-.player-paddle:hover {
-    filter: drop-shadow(0 8px 15px rgba(0, 255, 136, 0.6));
-}
+/* Efectos hover deshabilitados para mejor jugabilidad */
 
 .opponent-paddle {
-    filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.4));
+    filter: none;
 }
 
 /* Efecto de brillo en la pelota cuando está en movimiento rápido */
@@ -2666,6 +2828,7 @@ TERFAZ DE JUEGO AZUL ===== */
 .table-surface-game {
     outline: 3px solid rgba(255, 255, 255, 0.9);
     outline-offset: -3px;
+    background: #008f39 !important;
 }
 
 /* Bordes ya incluidos en la superficie */
@@ -2710,20 +2873,12 @@ TERFAZ DE JUEGO AZUL ===== */
     }
 }
 
-/* Efecto de flotación en las paletas */
-.player-paddle:hover {
-    transform: translateX(-50%) translateZ(60px) rotateX(-25deg) rotateY(8deg);
-    filter: drop-shadow(0 25px 35px rgba(0, 0, 0, 0.8));
-}
-
-.opponent-paddle:hover {
-    transform: translateX(-50%) translateZ(60px) rotateX(25deg) rotateY(-8deg);
-    filter: drop-shadow(0 25px 35px rgba(0, 0, 0, 0.8));
-}
+/* Efectos de flotación deshabilitados para mejor control */
 
 /* Brillo en la superficie de la mesa */
 .table-surface-game {
     animation: tableShine 4s ease-in-out infinite alternate;
+    background: #008f39 !important;
 }
 
 @keyframes tableShine {
@@ -2755,4 +2910,1273 @@ TERFAZ DE JUEGO AZUL ===== */
     100% { 
         transform: translateY(-50%) translateZ(18px);
     }
+}/* =====
+ BOTONES DE PAUSA PROFESIONALES ===== */
+.pause-buttons {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.abandon-btn, .continue-btn {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 15px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    min-width: 180px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Botón Abandonar - Rojo elegante */
+.abandon-btn {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.abandon-btn:hover {
+    background: linear-gradient(135deg, #c0392b, #a93226);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+}
+
+.abandon-btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(231, 76, 60, 0.3);
+}
+
+/* Botón Continuar - Verde elegante */
+.continue-btn {
+    background: linear-gradient(135deg, #27ae60, #229954);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.continue-btn:hover {
+    background: linear-gradient(135deg, #229954, #1e8449);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(39, 174, 96, 0.4);
+}
+
+.continue-btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(39, 174, 96, 0.3);
+}
+
+/* Efectos de brillo */
+.abandon-btn::before, .continue-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.abandon-btn:hover::before, .continue-btn:hover::before {
+    left: 100%;
+}
+
+/* Iconos en los botones */
+.abandon-btn::after {
+    content: '🚪';
+    margin-left: 0.5rem;
+}
+
+.continue-btn::after {
+    content: '▶️';
+    margin-left: 0.5rem;
+}
+
+/* Animación de entrada */
+.pause-buttons button {
+    animation: buttonSlideIn 0.5s ease-out;
+}
+
+.abandon-btn {
+    animation-delay: 0.1s;
+}
+
+.continue-btn {
+    animation-delay: 0.2s;
+}
+
+@keyframes buttonSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    .pause-buttons {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .abandon-btn, .continue-btn {
+        min-width: 200px;
+        padding: 1.2rem 2rem;
+        font-size: 1rem;
+    }
+}/* =
+==== ESTILOS DE PELOTAS PERSONALIZADAS ===== */
+
+/* Pelota Clásica (blanca por defecto) */
+.ball.ball-classic {
+    background: #ffffff;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+}
+
+/* Pelota Neón (verde brillante) */
+.ball.ball-neon {
+    background: #00ff88;
+    box-shadow: 0 0 25px rgba(0, 255, 136, 0.9);
+    animation: neonPulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes neonPulse {
+    0% { box-shadow: 0 0 25px rgba(0, 255, 136, 0.9); }
+    100% { box-shadow: 0 0 35px rgba(0, 255, 136, 1); }
+}
+
+/* Pelota Fuego (roja con efecto de llama) */
+.ball.ball-fire {
+    background: radial-gradient(circle, #ff4444, #cc0000);
+    box-shadow: 0 0 30px rgba(255, 68, 68, 0.8);
+    animation: fireFlicker 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes fireFlicker {
+    0% { 
+        box-shadow: 0 0 30px rgba(255, 68, 68, 0.8);
+        transform: scale(1);
+    }
+    100% { 
+        box-shadow: 0 0 40px rgba(255, 100, 100, 1);
+        transform: scale(1.05);
+    }
+}
+
+/* Pelota Arcoíris */
+.ball.ball-rainbow {
+    background: linear-gradient(45deg, #ff0000, #ff8000, #ffff00, #00ff00, #0080ff, #8000ff);
+    background-size: 400% 400%;
+    animation: rainbowShift 2s ease infinite;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
+}
+
+@keyframes rainbowShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Pelota Diamante (azul cristalino) */
+.ball.ball-diamond {
+    background: radial-gradient(circle, #00ccff, #0088cc);
+    box-shadow: 
+        0 0 20px rgba(0, 204, 255, 0.8),
+        inset 0 0 10px rgba(255, 255, 255, 0.3);
+    animation: diamondSparkle 1.5s ease-in-out infinite;
+}
+
+@keyframes diamondSparkle {
+    0%, 100% { 
+        box-shadow: 
+            0 0 20px rgba(0, 204, 255, 0.8),
+            inset 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+    50% { 
+        box-shadow: 
+            0 0 35px rgba(0, 204, 255, 1),
+            inset 0 0 15px rgba(255, 255, 255, 0.6);
+    }
+}
+
+/* Pelota Dorada */
+.ball.ball-gold {
+    background: radial-gradient(circle, #ffd700, #b8860b);
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
+    animation: goldShine 2s ease-in-out infinite;
+}
+
+@keyframes goldShine {
+    0%, 100% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.8); }
+    50% { box-shadow: 0 0 40px rgba(255, 215, 0, 1); }
+}
+
+/* Pelota Púrpura */
+.ball.ball-purple {
+    background: radial-gradient(circle, #8a2be2, #4b0082);
+    box-shadow: 0 0 25px rgba(138, 43, 226, 0.8);
+    animation: purpleGlow 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes purpleGlow {
+    0% { box-shadow: 0 0 25px rgba(138, 43, 226, 0.8); }
+    100% { box-shadow: 0 0 35px rgba(138, 43, 226, 1); }
+}
+
+/* Pelota Cibernética */
+.ball.ball-cyber {
+    background: radial-gradient(circle, #00ffff, #008b8b);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.9);
+    animation: cyberPulse 0.8s ease-in-out infinite;
+}
+
+@keyframes cyberPulse {
+    0%, 100% { 
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.9);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 0 45px rgba(0, 255, 255, 1);
+        transform: scale(1.08);
+    }
+}
+
+/* Pelota Lava */
+.ball.ball-lava {
+    background: radial-gradient(circle, #ff6600, #cc3300);
+    box-shadow: 0 0 30px rgba(255, 102, 0, 0.8);
+    animation: lavaFlow 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes lavaFlow {
+    0% { 
+        background: radial-gradient(circle, #ff6600, #cc3300);
+        box-shadow: 0 0 30px rgba(255, 102, 0, 0.8);
+    }
+    100% { 
+        background: radial-gradient(circle, #ff8800, #ff4400);
+        box-shadow: 0 0 40px rgba(255, 136, 0, 1);
+    }
+}
+
+/* Pelota Galaxia */
+.ball.ball-galaxy {
+    background: 
+        radial-gradient(circle at 20% 30%, #ffffff 2px, transparent 2px),
+        radial-gradient(circle at 60% 70%, #ffffff 1px, transparent 1px),
+        radial-gradient(circle at 80% 20%, #ffffff 1px, transparent 1px),
+        linear-gradient(45deg, #000033, #000066, #330066, #660099);
+    background-size: 50px 50px, 30px 30px, 40px 40px, 100% 100%;
+    animation: galaxyRotate 4s linear infinite;
+    box-shadow: 0 0 35px rgba(102, 0, 153, 0.8);
+}
+
+@keyframes galaxyRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Estilos para botones de la tienda */
+.equip-btn {
+    background: linear-gradient(135deg, #27ae60, #229954);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.equip-btn:hover {
+    background: linear-gradient(135deg, #229954, #1e8449);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(39, 174, 96, 0.3);
+}
+
+.selected-btn {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: not-allowed;
+}
+
+.purchase-btn.owned {
+    background: #95a5a6;
+    color: white;
+}/*
+ ===== ESTILOS DE PALETAS PERSONALIZADAS ===== */
+
+/* Paleta Clásica (sin color) */
+.paddle.paddle-classic {
+    background: transparent;
+}
+
+/* Paleta Pro (turquesa) */
+.paddle.paddle-pro {
+    background: #4ecdc4;
+}
+
+/* Paleta Carbono (negro mate) */
+.paddle.paddle-carbon {
+    background: linear-gradient(45deg, #2c2c2c, #1a1a1a);
+    border: 2px solid #444;
+}
+
+/* Paleta Titanio (plateada brillante) */
+.paddle.paddle-titanium {
+    background: linear-gradient(45deg, #c0c0c0, #e6e6e6);
+}
+
+
+
+/* Paleta Neón (verde brillante) */
+.paddle.paddle-neon {
+    background: #00ff88;
+}
+
+/* Paleta Fuego (roja ardiente) */
+.paddle.paddle-fire {
+    background: radial-gradient(ellipse, #ff4444, #cc0000);
+}
+
+/* Paleta Dorada */
+.paddle.paddle-gold {
+    background: radial-gradient(ellipse, #ffd700, #b8860b);
+}
+
+/* Paleta Arcoíris */
+.paddle.paddle-rainbow {
+    background: linear-gradient(90deg, #ff0000, #ff8000, #ffff00, #00ff00, #0080ff, #8000ff);
+    background-size: 400% 100%;
+    animation: paddleRainbowShift 3s ease infinite;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
+}
+
+@keyframes paddleRainbowShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Paleta Diamante (azul cristalino) */
+.paddle.paddle-diamond {
+    background: radial-gradient(ellipse, #00ccff, #0088cc);
+}
+
+/* Paleta Galaxia */
+.paddle.paddle-galaxy {
+    background: 
+        radial-gradient(circle at 20% 30%, #ffffff 1px, transparent 1px),
+        radial-gradient(circle at 60% 70%, #ffffff 0.5px, transparent 0.5px),
+        radial-gradient(circle at 80% 20%, #ffffff 0.8px, transparent 0.8px),
+        linear-gradient(135deg, #000033, #000066, #330066, #660099);
+    background-size: 30px 30px, 20px 20px, 25px 25px, 100% 100%;
+    animation: paddleGalaxyRotate 5s linear infinite;
+}
+
+@keyframes paddleGalaxyRotate {
+    0% { 
+        background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+    }
+    100% { 
+        background-position: 30px 30px, 20px 20px, 25px 25px, 0% 0%;
+    }
+}
+
+/* Efectos hover deshabilitados para paletas del juego *//* ===== 
+ESTILOS DE MESAS PERSONALIZADAS ===== */
+
+/* Mesa Clásica (verde tradicional) */
+.table.table-classic {
+    background: #2d5016;
+    border: 4px solid #1a3009;
+    box-shadow: 0 0 20px rgba(45, 80, 22, 0.6);
+}
+
+/* Mesa Futurista (azul tecnológico) */
+.table.table-futuristic {
+    background: linear-gradient(45deg, #00ccff, #0099cc);
+    border: 4px solid #0066aa;
+    box-shadow: 
+        0 0 30px rgba(0, 204, 255, 0.8),
+        inset 0 0 20px rgba(255, 255, 255, 0.1);
+    animation: futuristicPulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes futuristicPulse {
+    0% { 
+        box-shadow: 
+            0 0 30px rgba(0, 204, 255, 0.8),
+            inset 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+    100% { 
+        box-shadow: 
+            0 0 50px rgba(0, 204, 255, 1),
+            inset 0 0 30px rgba(255, 255, 255, 0.2);
+    }
+}
+
+/* Mesa Cristal (transparente brillante) */
+.table.table-crystal {
+    background: linear-gradient(45deg, #e6f3ff, #ccebff);
+    border: 4px solid #99d6ff;
+    box-shadow: 
+        0 0 40px rgba(230, 243, 255, 0.9),
+        inset 0 0 30px rgba(255, 255, 255, 0.3);
+    animation: crystalSparkle 3s ease-in-out infinite;
+}
+
+@keyframes crystalSparkle {
+    0%, 100% { 
+        box-shadow: 
+            0 0 40px rgba(230, 243, 255, 0.9),
+            inset 0 0 30px rgba(255, 255, 255, 0.3);
+    }
+    50% { 
+        box-shadow: 
+            0 0 60px rgba(230, 243, 255, 1),
+            inset 0 0 50px rgba(255, 255, 255, 0.5);
+    }
+}
+
+/* Mesa Holográfica */
+.table.table-hologram {
+    background: 
+        linear-gradient(45deg, transparent 25%, rgba(0, 255, 255, 0.1) 25%, rgba(0, 255, 255, 0.1) 50%, transparent 50%, transparent 75%, rgba(255, 0, 255, 0.1) 75%),
+        linear-gradient(-45deg, transparent 25%, rgba(255, 255, 0, 0.1) 25%, rgba(255, 255, 0, 0.1) 50%, transparent 50%, transparent 75%, rgba(0, 255, 0, 0.1) 75%),
+        linear-gradient(90deg, #001122, #002244, #003366);
+    background-size: 20px 20px, 20px 20px, 100% 100%;
+    border: 4px solid #0066cc;
+    animation: hologramShift 4s linear infinite;
+    box-shadow: 0 0 50px rgba(0, 102, 204, 0.8);
+}
+
+@keyframes hologramShift {
+    0% { 
+        background-position: 0px 0px, 0px 0px, 0% 0%;
+        filter: hue-rotate(0deg);
+    }
+    100% { 
+        background-position: 20px 20px, -20px 20px, 0% 0%;
+        filter: hue-rotate(360deg);
+    }
+}
+
+/* Mesa Neón (verde brillante) */
+.table.table-neon {
+    background: #00ff88;
+    border: 4px solid #00cc66;
+    box-shadow: 
+        0 0 40px rgba(0, 255, 136, 0.9),
+        inset 0 0 20px rgba(255, 255, 255, 0.2);
+    animation: tableNeonPulse 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes tableNeonPulse {
+    0% { 
+        box-shadow: 
+            0 0 40px rgba(0, 255, 136, 0.9),
+            inset 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+    100% { 
+        box-shadow: 
+            0 0 60px rgba(0, 255, 136, 1),
+            inset 0 0 30px rgba(255, 255, 255, 0.3);
+    }
+}
+
+/* Mesa Lava (naranja ardiente) */
+.table.table-lava {
+    background: radial-gradient(ellipse, #ff4400, #cc2200);
+    border: 4px solid #aa1100;
+    box-shadow: 0 0 50px rgba(255, 68, 0, 0.8);
+    animation: lavaFlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes lavaFlow {
+    0% { 
+        background: radial-gradient(ellipse at 30% 30%, #ff6600, #cc2200);
+        box-shadow: 0 0 50px rgba(255, 68, 0, 0.8);
+    }
+    100% { 
+        background: radial-gradient(ellipse at 70% 70%, #ff8800, #dd3300);
+        box-shadow: 0 0 70px rgba(255, 136, 0, 1);
+    }
+}
+
+/* Mesa Dorada */
+.table.table-gold {
+    background: radial-gradient(ellipse, #ffd700, #b8860b);
+    border: 4px solid #996f00;
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
+    animation: goldShimmer 3s ease-in-out infinite;
+}
+
+@keyframes goldShimmer {
+    0%, 100% { 
+        box-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
+        background: radial-gradient(ellipse, #ffd700, #b8860b);
+    }
+    50% { 
+        box-shadow: 0 0 60px rgba(255, 215, 0, 1);
+        background: radial-gradient(ellipse, #ffdd33, #cc9900);
+    }
+}
+
+/* Mesa Arcoíris */
+.table.table-rainbow {
+    background: linear-gradient(45deg, #ff0000, #ff8000, #ffff00, #00ff00, #0080ff, #8000ff, #ff0080);
+    background-size: 400% 400%;
+    border: 4px solid #ffffff;
+    animation: tableRainbowShift 4s ease infinite;
+    box-shadow: 0 0 50px rgba(255, 255, 255, 0.6);
+}
+
+@keyframes tableRainbowShift {
+    0% { background-position: 0% 50%; }
+    25% { background-position: 100% 50%; }
+    50% { background-position: 100% 100%; }
+    75% { background-position: 0% 100%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Mesa Galaxia */
+.table.table-galaxy {
+    background: 
+        radial-gradient(circle at 20% 30%, #ffffff 2px, transparent 2px),
+        radial-gradient(circle at 60% 70%, #ffffff 1px, transparent 1px),
+        radial-gradient(circle at 80% 20%, #ffffff 1.5px, transparent 1.5px),
+        radial-gradient(circle at 40% 80%, #ffffff 1px, transparent 1px),
+        linear-gradient(135deg, #000033, #000066, #330066, #660099, #330033);
+    background-size: 80px 80px, 60px 60px, 100px 100px, 70px 70px, 100% 100%;
+    border: 4px solid #660099;
+    animation: galaxyDrift 8s linear infinite;
+    box-shadow: 0 0 60px rgba(102, 0, 153, 0.8);
+}
+
+@keyframes galaxyDrift {
+    0% { 
+        background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+    }
+    100% { 
+        background-position: 80px 80px, -60px 60px, 100px -100px, -70px 70px, 0% 0%;
+    }
+}
+
+/* Mesa Diamante (azul cristalino premium) */
+.table.table-diamond {
+    background: 
+        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.3) 2px, transparent 2px),
+        radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+        linear-gradient(45deg, #00ccff, #0088cc, #0066aa);
+    background-size: 40px 40px, 30px 30px, 100% 100%;
+    border: 4px solid #0066aa;
+    box-shadow: 
+        0 0 50px rgba(0, 204, 255, 0.9),
+        inset 0 0 30px rgba(255, 255, 255, 0.3);
+    animation: diamondBrilliance 2.5s ease-in-out infinite;
+}
+
+@keyframes diamondBrilliance {
+    0%, 100% { 
+        box-shadow: 
+            0 0 50px rgba(0, 204, 255, 0.9),
+            inset 0 0 30px rgba(255, 255, 255, 0.3);
+        background-position: 0% 0%, 0% 0%, 0% 0%;
+    }
+    50% { 
+        box-shadow: 
+            0 0 80px rgba(0, 204, 255, 1),
+            inset 0 0 50px rgba(255, 255, 255, 0.5);
+        background-position: 40px 40px, -30px 30px, 0% 0%;
+    }
+}
+
+/* Efectos adicionales para el contenedor de la mesa */
+.table-container.table-hologram-container {
+    filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.5));
+}
+
+.table-container.table-diamond-container {
+    filter: drop-shadow(0 0 25px rgba(0, 204, 255, 0.6));
+}
+
+.table-container.table-galaxy-container {
+    filter: drop-shadow(0 0 30px rgba(102, 0, 153, 0.7));
+}/* ===== NU
+EVOS ESTILOS DE MESAS DE COLORES ===== */
+
+/* Mesa Rosada */
+.table.table-pink {
+    background: #ff69b4;
+    border: 4px solid #ff1493;
+    box-shadow: 0 0 30px rgba(255, 105, 180, 0.8);
+    animation: pinkGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes pinkGlow {
+    0% { 
+        box-shadow: 0 0 30px rgba(255, 105, 180, 0.8);
+        background: #ff69b4;
+    }
+    100% { 
+        box-shadow: 0 0 50px rgba(255, 20, 147, 1);
+        background: #ff1493;
+    }
+}
+
+/* Mesa Naranja */
+.table.table-orange {
+    background: #ff8c00;
+    border: 4px solid #ff6600;
+    box-shadow: 0 0 35px rgba(255, 140, 0, 0.8);
+    animation: orangePulse 1.8s ease-in-out infinite;
+}
+
+@keyframes orangePulse {
+    0%, 100% { 
+        box-shadow: 0 0 35px rgba(255, 140, 0, 0.8);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 0 55px rgba(255, 102, 0, 1);
+        transform: scale(1.01);
+    }
+}
+
+/* Mesa Marrón */
+.table.table-brown {
+    background: #8b4513;
+    border: 4px solid #654321;
+    box-shadow: 0 0 25px rgba(139, 69, 19, 0.7);
+    animation: brownShine 3s ease-in-out infinite;
+}
+
+@keyframes brownShine {
+    0%, 100% { 
+        box-shadow: 0 0 25px rgba(139, 69, 19, 0.7);
+        background: #8b4513;
+    }
+    50% { 
+        box-shadow: 0 0 40px rgba(160, 82, 45, 0.9);
+        background: #a0522d;
+    }
+}
+
+/* Mesa Azul */
+.table.table-blue {
+    background: #1e90ff;
+    border: 4px solid #0066cc;
+    box-shadow: 0 0 40px rgba(30, 144, 255, 0.8);
+    animation: blueWave 2.5s ease-in-out infinite;
+}
+
+@keyframes blueWave {
+    0% { 
+        box-shadow: 0 0 40px rgba(30, 144, 255, 0.8);
+        background: #1e90ff;
+    }
+    33% { 
+        box-shadow: 0 0 60px rgba(0, 102, 204, 1);
+        background: #0066cc;
+    }
+    66% { 
+        box-shadow: 0 0 50px rgba(70, 130, 180, 0.9);
+        background: #4682b4;
+    }
+    100% { 
+        box-shadow: 0 0 40px rgba(30, 144, 255, 0.8);
+        background: #1e90ff;
+    }
+}/* 
+===== ICONOS DE MESA DE PING PONG ===== */
+
+/* Base para todos los iconos de mesa */
+.table-icon-classic,
+.table-icon-pink,
+.table-icon-orange,
+.table-icon-fire,
+.table-icon-brown,
+.table-icon-blue,
+.table-icon-purple,
+.table-icon-gold,
+.table-icon-neon,
+.table-icon-rainbow {
+    width: 60px;
+    height: 40px;
+    position: relative;
+    margin: 0 auto 10px;
+    transform: perspective(100px) rotateX(20deg);
+}
+
+/* Superficie de la mesa */
+.table-icon-classic::before,
+.table-icon-pink::before,
+.table-icon-orange::before,
+.table-icon-fire::before,
+.table-icon-brown::before,
+.table-icon-blue::before,
+.table-icon-purple::before,
+.table-icon-gold::before,
+.table-icon-neon::before,
+.table-icon-rainbow::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    border: 2px solid #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Línea central de la mesa */
+.table-icon-classic::after,
+.table-icon-pink::after,
+.table-icon-orange::after,
+.table-icon-fire::after,
+.table-icon-brown::after,
+.table-icon-blue::after,
+.table-icon-purple::after,
+.table-icon-gold::after,
+.table-icon-neon::after,
+.table-icon-rainbow::after {
+    content: '';
+    position: absolute;
+    top: 14px;
+    left: 2px;
+    right: 2px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 2;
+}
+
+/* Mesa Clásica (verde) */
+.table-icon-classic::before {
+    background: #2d5016;
+}
+
+/* Mesa Rosada */
+.table-icon-pink::before {
+    background: #ff69b4;
+    box-shadow: 0 2px 8px rgba(255, 105, 180, 0.4);
+}
+
+/* Mesa Naranja */
+.table-icon-orange::before {
+    background: #ff8c00;
+    box-shadow: 0 2px 8px rgba(255, 140, 0, 0.4);
+}
+
+/* Mesa de Fuego */
+.table-icon-fire::before {
+    background: #ff4400;
+    box-shadow: 0 2px 8px rgba(255, 68, 0, 0.4);
+}
+
+/* Mesa Marrón */
+.table-icon-brown::before {
+    background: #8b4513;
+    box-shadow: 0 2px 8px rgba(139, 69, 19, 0.4);
+}
+
+/* Mesa Azul */
+.table-icon-blue::before {
+    background: #1e90ff;
+    box-shadow: 0 2px 8px rgba(30, 144, 255, 0.4);
+}
+
+/* Mesa Púrpura */
+.table-icon-purple::before {
+    background: #8a2be2;
+    box-shadow: 0 2px 8px rgba(138, 43, 226, 0.4);
+}
+
+/* Mesa Dorada */
+.table-icon-gold::before {
+    background: #ffd700;
+    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+}
+
+/* Mesa Neón */
+.table-icon-neon::before {
+    background: #00ff88;
+    box-shadow: 0 2px 8px rgba(0, 255, 136, 0.4);
+}
+
+/* Mesa Arcoíris */
+.table-icon-rainbow::before {
+    background: linear-gradient(90deg, #ff0000, #ff8000, #ffff00, #00ff00, #0080ff, #8000ff);
+    background-size: 200% 100%;
+    animation: rainbowIconShift 2s ease infinite;
+}
+
+@keyframes rainbowIconShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Efectos hover para los iconos */
+.item-icon-large:hover .table-icon-classic,
+.item-icon-large:hover .table-icon-pink,
+.item-icon-large:hover .table-icon-orange,
+.item-icon-large:hover .table-icon-fire,
+.item-icon-large:hover .table-icon-brown,
+.item-icon-large:hover .table-icon-blue,
+.item-icon-large:hover .table-icon-purple,
+.item-icon-large:hover .table-icon-gold,
+.item-icon-large:hover .table-icon-neon,
+.item-icon-large:hover .table-icon-rainbow {
+    transform: perspective(100px) rotateX(15deg) scale(1.1);
+    transition: transform 0.3s ease;
+}/* =====
+ ICONO DE MESA CLÁSICA PARA CATEGORÍA ===== */
+
+.category-icon-table {
+    display: inline-block;
+    width: 32px;
+    height: 22px;
+    background: #2d5016;
+    border: 2px solid #ffffff;
+    border-radius: 4px;
+    position: relative;
+    vertical-align: middle;
+    margin-right: 8px;
+    margin-bottom: 4px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.category-icon-table::after {
+    content: '';
+    position: absolute;
+    top: 9px;
+    left: 2px;
+    right: 2px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+/* Efecto hover para el icono de mesa */
+.category-btn:hover .category-icon-table {
+    background: #3a6b1e;
+    transform: scale(1.1);
+    transition: all 0.2s ease;
+}/* Ase
+gurar que el título de la tienda solo aparezca en la tienda */
+.main-interface .shop-header {
+    display: none !important;
+}
+
+.blue-shop-interface .shop-header {
+    display: flex !important;
+}/* Ocultar
+ cualquier icono de mesa en la página principal */
+.main-interface .category-icon-table,
+.main-interface .table-icon-classic,
+.main-interface .table-icon-pink,
+.main-interface .table-icon-orange,
+.main-interface .table-icon-fire,
+.main-interface .table-icon-brown,
+.main-interface .table-icon-blue,
+.main-interface .table-icon-purple,
+.main-interface .table-icon-gold,
+.main-interface .table-icon-neon,
+.main-interface .table-icon-rainbow {
+    display: none !important;
+}
+
+/* Ocultar elementos de tienda en la página principal */
+.main-interface .shop-categories,
+.main-interface .category-btn {
+    display: none !important;
+}
+
+/* ===== DISEÑO PROFESIONAL BASADO EN REFERENCIA ===== */
+
+/* Efectos de luz ambiental */
+.ambient-lights {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.light-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    animation: lightFloat 6s ease-in-out infinite;
+}
+
+.light-1 {
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(0, 255, 255, 0.3) 0%, transparent 70%);
+    top: 10%;
+    left: 20%;
+    animation-delay: 0s;
+}
+
+.light-2 {
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(255, 0, 255, 0.2) 0%, transparent 70%);
+    top: 60%;
+    right: 15%;
+    animation-delay: 2s;
+}
+
+.light-3 {
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(0, 150, 255, 0.25) 0%, transparent 70%);
+    bottom: 20%;
+    left: 10%;
+    animation-delay: 4s;
+}
+
+@keyframes lightFloat {
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+    33% { transform: translate(20px, -15px) scale(1.1); opacity: 0.5; }
+    66% { transform: translate(-15px, 10px) scale(0.9); opacity: 0.4; }
+}
+
+/* Líneas de luz curvadas como en la referencia */
+.main-interface::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(ellipse 80% 30% at 50% 20%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse 70% 25% at 30% 80%, rgba(0, 255, 255, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 20% at 70% 70%, rgba(0, 255, 255, 0.06) 0%, transparent 50%);
+    pointer-events: none;
+    animation: stadiumLights 8s ease-in-out infinite alternate;
+}
+
+@keyframes stadiumLights {
+    0% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+/* Efecto de público en las gradas (bokeh) */
+.main-interface::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle 3px at 15% 25%, rgba(255, 200, 100, 0.4) 0%, transparent 50%),
+        radial-gradient(circle 2px at 25% 30%, rgba(100, 200, 255, 0.3) 0%, transparent 50%),
+        radial-gradient(circle 4px at 35% 20%, rgba(255, 150, 200, 0.3) 0%, transparent 50%),
+        radial-gradient(circle 2px at 45% 35%, rgba(200, 255, 150, 0.4) 0%, transparent 50%),
+        radial-gradient(circle 3px at 55% 25%, rgba(255, 180, 100, 0.3) 0%, transparent 50%),
+        radial-gradient(circle 2px at 65% 30%, rgba(150, 200, 255, 0.4) 0%, transparent 50%),
+        radial-gradient(circle 4px at 75% 20%, rgba(255, 200, 150, 0.3) 0%, transparent 50%),
+        radial-gradient(circle 2px at 85% 35%, rgba(200, 150, 255, 0.4) 0%, transparent 50%),
+        radial-gradient(circle 3px at 20% 75%, rgba(255, 220, 100, 0.3) 0%, transparent 50%),
+        radial-gradient(circle 2px at 30% 80%, rgba(100, 180, 255, 0.4) 0%, transparent 50%),
+        radial-gradient(circle 4px at 40% 70%, rgba(255, 160, 200, 0.3) 0%, transparent 50%),
+        radial-gradient(circle 2px at 50% 85%, rgba(180, 255, 150, 0.4) 0%, transparent 50%),
+        radial-gradient(circle 3px at 60% 75%, rgba(255, 190, 100, 0.3) 0%, transparent 50%),
+        radial-gradient(circle 2px at 70% 80%, rgba(140, 200, 255, 0.4) 0%, transparent 50%),
+        radial-gradient(circle 4px at 80% 70%, rgba(255, 210, 150, 0.3) 0%, transparent 50%),
+        radial-gradient(circle 2px at 90% 85%, rgba(190, 150, 255, 0.4) 0%, transparent 50%);
+    pointer-events: none;
+    animation: crowdTwinkle 3s ease-in-out infinite;
+}
+
+@keyframes crowdTwinkle {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.9; }
+}
+
+/* Estadísticas del jugador */
+.player-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 1rem 2rem;
+    margin: 1rem 0;
+    position: relative;
+    z-index: 5;
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: rgba(0, 20, 40, 0.7);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(0, 255, 255, 0.6);
+    box-shadow: 0 12px 35px rgba(0, 255, 255, 0.2);
+}
+
+.stat-icon {
+    font-size: 2rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #00ffff;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Elementos decorativos flotantes */
+.decorative-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.floating-ball, .floating-paddle {
+    position: absolute;
+    font-size: 1.5rem;
+    animation: floatAround 8s ease-in-out infinite;
+    opacity: 0.6;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+}
+
+.ball-1 {
+    top: 20%;
+    left: 15%;
+    animation-delay: 0s;
+}
+
+.ball-2 {
+    top: 30%;
+    right: 20%;
+    animation-delay: 3s;
+}
+
+.paddle-1 {
+    bottom: 25%;
+    left: 10%;
+    animation-delay: 6s;
+}
+
+@keyframes floatAround {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(20px, -15px) rotate(90deg); }
+    50% { transform: translate(-10px, -25px) rotate(180deg); }
+    75% { transform: translate(-20px, 10px) rotate(270deg); }
+}
+
+/* Círculos de energía alrededor de la mesa */
+.energy-rings {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.energy-ring {
+    position: absolute;
+    border: 2px solid rgba(0, 255, 255, 0.3);
+    border-radius: 50%;
+    animation: energyPulse 4s ease-in-out infinite;
+}
+
+.ring-1 {
+    width: 400px;
+    height: 400px;
+    top: -200px;
+    left: -200px;
+    animation-delay: 0s;
+}
+
+.ring-2 {
+    width: 500px;
+    height: 500px;
+    top: -250px;
+    left: -250px;
+    animation-delay: 1.5s;
+}
+
+.ring-3 {
+    width: 600px;
+    height: 600px;
+    top: -300px;
+    left: -300px;
+    animation-delay: 3s;
+}
+
+@keyframes energyPulse {
+    0% { 
+        transform: scale(0.8);
+        opacity: 0;
+        border-color: rgba(0, 255, 255, 0.3);
+    }
+    50% { 
+        transform: scale(1);
+        opacity: 0.6;
+        border-color: rgba(0, 255, 255, 0.8);
+    }
+    100% { 
+        transform: scale(1.2);
+        opacity: 0;
+        border-color: rgba(0, 255, 255, 0.1);
+    }
+}
+
+/* Responsive para estadísticas */
+@media (max-width: 768px) {
+    .player-stats {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .stat-card {
+        padding: 0.8rem 1rem;
+    }
+}/* L
+ínea central divisoria más visible */
+.table-surface-game::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, 
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(255, 255, 255, 1) 50%,
+        rgba(255, 255, 255, 0.9) 100%);
+    transform: translateX(-50%);
+    box-shadow: 
+        0 0 8px rgba(255, 255, 255, 0.8),
+        inset 0 0 2px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}/* Aseg
+urar que las paletas mantengan sus colores originales */
+.paddle-surface-3d {
+    background: 
+        /* Textura de goma profesional */
+        radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 70% 75%, rgba(0, 0, 0, 0.1) 0%, transparent 30%),
+        /* Superficie principal negra mate */
+        radial-gradient(ellipse at 40% 30%, 
+            #1a1a1a 0%, 
+            #2c2c2c 40%,
+            #1a1a1a 70%,
+            #0d0d0d 100%) !important;
+}
+
+.paddle-3d.opponent .paddle-surface-3d {
+    background: 
+        /* Textura de goma profesional */
+        radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 70% 75%, rgba(0, 0, 0, 0.1) 0%, transparent 30%),
+        /* Superficie principal roja mate */
+        radial-gradient(ellipse at 40% 30%, 
+            #8B0000 0%, 
+            #A52A2A 40%,
+            #8B0000 70%,
+            #660000 100%) !important;
+}
+
+.paddle-handle-3d {
+    background: 
+        /* Textura de madera profesional */
+        repeating-linear-gradient(90deg, 
+            transparent 0px, transparent 1px,
+            rgba(0, 0, 0, 0.1) 1px, rgba(0, 0, 0, 0.1) 2px),
+        linear-gradient(90deg, 
+            #8B4513 0%, 
+            #A0522D 15%,
+            #CD853F 30%,
+            #DEB887 50%,
+            #CD853F 70%,
+            #A0522D 85%,
+            #8B4513 100%) !important;
+}
+
+/* FORZAR VERDE EN LA MESA - REGLA FINAL */
+.game-table .table-surface-game,
+.game-table-container .table-surface-game,
+div.table-surface-game,
+#gameTable .table-surface-game,
+.table-surface-game {
+    background-color: #008f39 !important;
+    background-image: none !important;
+    background: #008f39 !important;
+}
+
+/* Asegurar que el contenedor de la mesa no interfiera */
+.game-table {
+    background: transparent !important;
+}
+
+.game-table-container {
+    background: transparent !important;
+}
+
+/* REGLA FINAL PARA MESA VERDE - MÁXIMA PRIORIDAD */
+html body .game-table-container .game-table .table-surface-game,
+html body div.game-table-container div.game-table div.table-surface-game,
+body .table-surface-game,
+.table-surface-game {
+    background: #008f39 !important;
+    background-color: #008f39 !important;
+    background-image: none !important;
+}
+
+/* Sobrescribir estilos inline */
+.table-surface-game[style*="background"] {
+    background: #008f39 !important;
+    background-color: #008f39 !important;
 }

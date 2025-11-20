@@ -1,4 +1,4 @@
-# 🏓 Estilo Profesional 3D - Mesa de Ping Pong
+🏓 Estilo Profesional 3D - Mesa de Ping Pong
 
 ## ✅ Transformación Profesional Completa
 
