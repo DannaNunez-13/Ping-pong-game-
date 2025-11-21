@@ -350,8 +350,52 @@ function showCustomization() {
     showNotification('Personalización - Próximamente', '#9b59b6');
 }
 
+// Variable global para almacenar los puntos del set
+let setPoints = 11; // Por defecto 11 puntos (estándar)
+
 function showOptions() {
-    showNotification('Opciones - Próximamente', '#34495e');
+    document.getElementById('mainInterface').style.display = 'none';
+    document.getElementById('optionsPanel').style.display = 'block';
+}
+
+function closeOptions() {
+    document.getElementById('optionsPanel').style.display = 'none';
+    document.getElementById('mainInterface').style.display = 'flex';
+}
+
+function selectSetPoints(points) {
+    setPoints = points;
+    
+    // Actualizar botones activos
+    document.querySelectorAll('.set-option-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    document.querySelector(`[data-points="${points}"]`).classList.add('active');
+    
+    // Mostrar notificación
+    showNotification(`Set configurado a ${points} puntos`, '#00ff88');
+    
+    // Guardar en localStorage
+    localStorage.setItem('setPoints', points);
+}
+
+// Cargar configuración guardada al iniciar
+function loadGameSettings() {
+    const savedPoints = localStorage.getItem('setPoints');
+    if (savedPoints) {
+        setPoints = parseInt(savedPoints);
+        // Actualizar botón activo
+        setTimeout(() => {
+            document.querySelectorAll('.set-option-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            const activeBtn = document.querySelector(`[data-points="${setPoints}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+        }, 100);
+    }
 }
 
 // ===== SISTEMA DE TIENDA AZUL =====
@@ -793,6 +837,12 @@ function initializePingPongGame(difficulty) {
     // Actualizar UI
     updateGameUI();
     document.getElementById('difficultyDisplay').textContent = difficulty.toUpperCase();
+    
+    // Actualizar información del set con los puntos configurados
+    const setInfo = document.getElementById('currentSet');
+    if (setInfo) {
+        setInfo.textContent = `Juego a ${setPoints} puntos (Tú: 0 - 0 Oponente)`;
+    }
 
     // Inicializar botón de pausa
     const pauseBtn = document.querySelector('.pause-btn');
@@ -929,11 +979,11 @@ function handleMouseMove(e) {
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
 
-    // Movimiento directo y ultra responsivo (sin lag)
+    // Movimiento completo (horizontal y vertical) controlado por el usuario
     const targetX = Math.max(2, Math.min(98, x));
     const targetY = Math.max(60, Math.min(95, y));
 
-    // Movimiento casi instantáneo - más ligero
+    // Movimiento suave y directo sin animaciones automáticas
     gameState.playerPaddlePos.x += (targetX - gameState.playerPaddlePos.x) * 0.95;
     gameState.playerPaddlePos.y += (targetY - gameState.playerPaddlePos.y) * 0.95;
 }
@@ -945,7 +995,7 @@ function handleTouchMove(e) {
     const x = ((touch.clientX - rect.left) / rect.width) * 100;
     const y = ((touch.clientY - rect.top) / rect.height) * 100;
 
-    // Movimiento súper responsivo en móviles
+    // Movimiento completo (horizontal y vertical) controlado por el usuario
     const targetX = Math.max(2, Math.min(98, x));
     const targetY = Math.max(60, Math.min(95, y));
 
@@ -1036,11 +1086,11 @@ function checkAdvancedPaddleCollisions() {
         const paddleX = gameState.playerPaddlePos.x;
         const paddleY = gameState.playerPaddlePos.y;
 
-        // Área de colisión extra generosa para mejor jugabilidad
+        // Área de colisión generosa pero no automática
         const distanceX = Math.abs(ballX - paddleX);
         const distanceY = Math.abs(ballY - paddleY);
 
-        if (distanceX <= 25 && distanceY <= 20) { // Área mucho más grande para facilitar el juego
+        if (distanceX <= 30 && distanceY <= 20) { // Área grande pero controlable
             handlePlayerHit(ballX, ballY, paddleX, paddleY);
         }
     }
@@ -1050,11 +1100,11 @@ function checkAdvancedPaddleCollisions() {
         const paddleX = gameState.opponentPaddlePos.x;
         const paddleY = gameState.opponentPaddlePos.y;
 
-        // Área de colisión generosa para el oponente
+        // Área de colisión MUY PEQUEÑA para el oponente (muy difícil para él)
         const distanceX = Math.abs(ballX - paddleX);
         const distanceY = Math.abs(ballY - paddleY);
 
-        if (distanceX <= 15 && distanceY <= 10) {
+        if (distanceX <= 10 && distanceY <= 6) {
             handleOpponentHit(ballX, ballY, paddleX, paddleY);
         }
     }
@@ -1063,8 +1113,8 @@ function checkAdvancedPaddleCollisions() {
 function handlePlayerHit(ballX, ballY, paddleX, paddleY) {
     const hitOffset = (ballX - paddleX) / 18; // Normalizado con área más grande
 
-    // Golpe más fluido y directo hacia el oponente
-    const hitPower = 2.0; // Potencia aumentada para mejor fluidez
+    // Golpe más suave y controlable
+    const hitPower = 1.5; // Potencia reducida para mejor control
 
     // Dirección directa hacia el oponente (arriba = negativo en Y)
     const targetX = paddleX + (hitOffset * 30); // Dirección horizontal basada en donde golpeas
@@ -1105,22 +1155,22 @@ function handleOpponentHit(ballX, ballY, paddleX, paddleY) {
     const hitOffset = (ballX - paddleX) / 12;
     const verticalOffset = (ballY - paddleY) / 8;
 
-    // Golpe del oponente más fluido y directo hacia el jugador
-    const hitPower = 1.8;
+    // Golpe del oponente MUY débil
+    const hitPower = 1.1;
 
     // Dirección hacia el jugador (abajo = positivo en Y)
     const targetX = paddleX + (hitOffset * 25);
     const directionX = (targetX - ballX) * 0.025;
     const directionY = hitPower; // Siempre hacia abajo (jugador)
 
-    // Agregar variación según dificultad
+    // Agregar MUCHA variación según dificultad
     let errorX = 0;
     if (gameState.difficulty === 'easy') {
-        errorX = (Math.random() - 0.5) * 0.8;
+        errorX = (Math.random() - 0.5) * 1.2;
     } else if (gameState.difficulty === 'medium') {
-        errorX = (Math.random() - 0.5) * 0.4;
+        errorX = (Math.random() - 0.5) * 0.8;
     } else {
-        errorX = (Math.random() - 0.5) * 0.2;
+        errorX = (Math.random() - 0.5) * 0.5;
     }
 
     gameState.ballVelocity.x = directionX + errorX;
@@ -1142,22 +1192,22 @@ function updateOpponentAI() {
     const paddleX = gameState.opponentPaddlePos.x;
     const paddleY = gameState.opponentPaddlePos.y;
 
-    // IA más fluida y reactiva
-    let aiSpeed = 2.5;
-    let errorRate = 0.3;
+    // IA extremadamente fácil de vencer
+    let aiSpeed = 1.2;
+    let errorRate = 0.7;
 
     switch (gameState.difficulty) {
         case 'easy':
-            aiSpeed = 1.8;
-            errorRate = 0.5;
+            aiSpeed = 0.8;
+            errorRate = 0.85;
             break;
         case 'medium':
-            aiSpeed = 2.8;
-            errorRate = 0.3;
+            aiSpeed = 1.5;
+            errorRate = 0.7;
             break;
         case 'hard':
-            aiSpeed = 3.5;
-            errorRate = 0.15;
+            aiSpeed = 2.2;
+            errorRate = 0.5;
             break;
     }
 
@@ -1180,18 +1230,21 @@ function updateOpponentAI() {
             targetX = ballX + (gameState.ballVelocity.x * 5);
         }
 
-        // Agregar error según dificultad
+        // Agregar error según dificultad (más error = más fácil para el jugador)
         if (Math.random() < errorRate) {
-            targetX += (Math.random() - 0.5) * 25;
+            targetX += (Math.random() - 0.5) * 50; // Error MUY grande
         }
+        
+        // Agregar error adicional aleatorio constante
+        targetX += (Math.random() - 0.5) * 20;
 
         // Limitar objetivo
         targetX = Math.max(10, Math.min(90, targetX));
 
-        // Movimiento más fluido y rápido
+        // Movimiento horizontal suave hacia la pelota (sin zig-zag)
         const horizontalDiff = targetX - paddleX;
-        if (Math.abs(horizontalDiff) > 1) {
-            const moveSpeed = Math.min(aiSpeed, Math.abs(horizontalDiff) * 0.3);
+        if (Math.abs(horizontalDiff) > 2) {
+            const moveSpeed = Math.min(aiSpeed * 0.8, Math.abs(horizontalDiff) * 0.2);
             gameState.opponentPaddlePos.x += Math.sign(horizontalDiff) * moveSpeed;
         }
 
@@ -1363,19 +1416,20 @@ function scorePoint(scorer) {
         gameState.serverSide = gameState.serverSide === 'player' ? 'opponent' : 'player';
     }
 
-    // Verificar si alguien ganó el juego (11 puntos con diferencia de 2)
-    if ((gameState.playerScore >= 11 || gameState.opponentScore >= 11) &&
+    // Verificar si alguien ganó el juego (setPoints con diferencia de 2)
+    if ((gameState.playerScore >= setPoints || gameState.opponentScore >= setPoints) &&
         Math.abs(gameState.playerScore - gameState.opponentScore) >= 2) {
-        // Solo terminar si el que acaba de anotar es quien tiene 11+ puntos
-        if ((scorer === 'player' && gameState.playerScore >= 11) ||
-            (scorer === 'opponent' && gameState.opponentScore >= 11)) {
+        // Solo terminar si el que acaba de anotar es quien tiene setPoints+ puntos
+        if ((scorer === 'player' && gameState.playerScore >= setPoints) ||
+            (scorer === 'opponent' && gameState.opponentScore >= setPoints)) {
             endSet(scorer);
             return;
         }
     }
 
-    // Mostrar deuce si están 10-10 o más
-    if (gameState.playerScore >= 10 && gameState.opponentScore >= 10) {
+    // Mostrar deuce si están cerca del límite
+    const deucePoint = setPoints - 1;
+    if (gameState.playerScore >= deucePoint && gameState.opponentScore >= deucePoint) {
         if (Math.abs(gameState.playerScore - gameState.opponentScore) < 2) {
             showNotification('¡DEUCE! - Necesitas 2 puntos de ventaja', '#f39c12');
         }
@@ -1478,7 +1532,7 @@ function updateGameUI() {
 
     // Mostrar información del juego actual
     const setInfo = document.getElementById('currentSet');
-    setInfo.textContent = `Juego a 11 puntos (Tú: ${gameState.playerScore} - ${gameState.opponentScore} Oponente)`;
+    setInfo.textContent = `Juego a ${setPoints} puntos (Tú: ${gameState.playerScore} - ${gameState.opponentScore} Oponente)`;
 }
 
 // Funciones de control del juego
@@ -1619,6 +1673,9 @@ function backToMenu() {
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Iniciando Ping Pong 3D...');
 
+    // Cargar configuración del juego
+    loadGameSettings();
+
     // Asegurar que las interfaces estén ocultas al inicio
     const mainInterface = document.getElementById('mainInterface');
     if (mainInterface) {
@@ -1633,6 +1690,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const blueShop = document.getElementById('blueShopInterface');
     if (blueShop) {
         blueShop.style.display = 'none';
+    }
+    
+    const optionsPanel = document.getElementById('optionsPanel');
+    if (optionsPanel) {
+        optionsPanel.style.display = 'none';
     }
 
     // Inicializar controlador de carga

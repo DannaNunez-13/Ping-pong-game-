@@ -11,6 +11,8 @@
 <body>
     <div class="loading-container">
 
+        <h1 class="loading-title">PING-PONG</h1>
+
         <div class="progress-container">
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
@@ -428,6 +430,65 @@
                 </div>
                 <button class="play-again-btn" onclick="playAgain()">Jugar de Nuevo</button>
                 <button class="menu-btn" onclick="backToMenu()">Volver al Menú</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANEL DE OPCIONES -->
+    <div class="options-panel" id="optionsPanel" style="display: none;">
+        <div class="options-header">
+            <button class="back-btn" onclick="closeOptions()">← Volver</button>
+            <h1>⚙️ OPCIONES DEL JUEGO</h1>
+        </div>
+
+        <div class="options-content">
+            <!-- Configuración de Sets -->
+            <div class="option-section">
+                <h2 class="option-title">🏆 Configuración de Sets</h2>
+                <p class="option-description">Selecciona cuántos puntos se necesitan para ganar un set</p>
+                
+                <div class="sets-options">
+                    <button class="set-option-btn" data-points="5" onclick="selectSetPoints(5)">
+                        <span class="set-number">5</span>
+                        <span class="set-label">Puntos</span>
+                        <span class="set-subtitle">Rápido</span>
+                    </button>
+                    
+                    <button class="set-option-btn active" data-points="11" onclick="selectSetPoints(11)">
+                        <span class="set-number">11</span>
+                        <span class="set-label">Puntos</span>
+                        <span class="set-subtitle">Estándar</span>
+                        <span class="recommended-badge">Recomendado</span>
+                    </button>
+                    
+                    <button class="set-option-btn" data-points="21" onclick="selectSetPoints(21)">
+                        <span class="set-number">21</span>
+                        <span class="set-label">Puntos</span>
+                        <span class="set-subtitle">Clásico</span>
+                    </button>
+                    
+                    <button class="set-option-btn" data-points="15" onclick="selectSetPoints(15)">
+                        <span class="set-number">15</span>
+                        <span class="set-label">Puntos</span>
+                        <span class="set-subtitle">Intermedio</span>
+                    </button>
+                </div>
+
+                <div class="option-info">
+                    <span class="info-icon">ℹ️</span>
+                    <span class="info-text">El jugador debe ganar por 2 puntos de diferencia</span>
+                </div>
+            </div>
+
+            <!-- Otras opciones futuras -->
+            <div class="option-section">
+                <h2 class="option-title">🎮 Controles</h2>
+                <p class="option-description">Próximamente: Personalización de controles</p>
+            </div>
+
+            <div class="option-section">
+                <h2 class="option-title">🔊 Audio</h2>
+                <p class="option-description">Próximamente: Configuración de sonido</p>
             </div>
         </div>
     </div>
